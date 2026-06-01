@@ -7,7 +7,7 @@ import de.ambertation.wunderlib.ui.layout.values.Alignment;
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 
 public class Text extends LayoutComponent<Text.TextRenderer, Text> {
@@ -72,7 +72,7 @@ public class Text extends LayoutComponent<Text.TextRenderer, Text> {
 
         @Override
         public void renderInBounds(
-                GuiGraphics guiGraphics,
+                GuiGraphicsExtractor GuiGraphicsExtractor,
                 int mouseX,
                 int mouseY,
                 float deltaTicks,
@@ -88,7 +88,7 @@ public class Text extends LayoutComponent<Text.TextRenderer, Text> {
                 if (linkedComponent.vAlign == Alignment.MIN) top = 0;
                 if (linkedComponent.vAlign == Alignment.CENTER) top = top / 2 + 1;
 
-                guiGraphics.drawString(getFont(), linkedComponent.text, left, top, linkedComponent.color);
+                GuiGraphicsExtractor.text(getFont(), linkedComponent.text, left, top, linkedComponent.color);
             }
         }
     }
@@ -99,3 +99,4 @@ public class Text extends LayoutComponent<Text.TextRenderer, Text> {
         return false;
     }
 }
+

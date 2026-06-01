@@ -5,7 +5,7 @@ import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.layout.values.Size;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 
 
@@ -79,14 +79,14 @@ public class Image extends CustomRenderComponent {
 
     @Override
     protected void customRender(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             int mouseX,
             int mouseY,
             float deltaTicks,
             Rectangle bounds,
             Rectangle clipRect
     ) {
-        RenderHelper.renderImage(guiGraphics, 0, 0, bounds.width, bounds.height, location, resourceSize, uvRect, alpha);
+        RenderHelper.renderImage(GuiGraphicsExtractor, 0, 0, bounds.width, bounds.height, location, resourceSize, uvRect, alpha);
     }
 
     @Override
@@ -106,3 +106,4 @@ public class Image extends CustomRenderComponent {
         focused = bl;
     }
 }
+

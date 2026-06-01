@@ -4,7 +4,7 @@ import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.layout.values.Size;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.resources.Identifier;
 
@@ -16,7 +16,7 @@ public class ImageButton extends Image {
     };
 
     public interface OnTooltip {
-        void onTooltip(ImageButton button, GuiGraphics guiGraphics, int mouseX, int mouseY);
+        void onTooltip(ImageButton button, GuiGraphicsExtractor GuiGraphicsExtractor, int mouseX, int mouseY);
     }
 
     public interface OnPress {
@@ -100,16 +100,17 @@ public class ImageButton extends Image {
 
     @Override
     protected void customRender(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             int mouseX,
             int mouseY,
             float deltaTicks,
             Rectangle bounds,
             Rectangle clipRect
     ) {
-        super.customRender(guiGraphics, mouseX, mouseY, deltaTicks, bounds, clipRect);
+        super.customRender(GuiGraphicsExtractor, mouseX, mouseY, deltaTicks, bounds, clipRect);
         if (getRelativeBounds().contains(mouseX, mouseY)) {
-            onTooltip.onTooltip(this, guiGraphics, mouseX, mouseY);
+            onTooltip.onTooltip(this, GuiGraphicsExtractor, mouseX, mouseY);
         }
     }
 }
+

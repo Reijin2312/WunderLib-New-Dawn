@@ -5,12 +5,12 @@ buildscript {
         gradlePluginPortal()
     }
 }
-sourceCompatibility = JavaVersion.VERSION_21
-targetCompatibility = JavaVersion.VERSION_21
-
-archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
 
 repositories {
     maven { url 'https://maven.neoforged.net/releases' }
@@ -31,7 +31,7 @@ neoForge {
         clientData {
             clientData()
             programArguments.addAll(
-                    "--mod", archivesBaseName,
+                    "--mod", project.archives_base_name,
                     "--all",
                     "--output", file("src/main/generated").toString(),
                     "--existing", file("src/main/resources").toString()
@@ -39,7 +39,7 @@ neoForge {
         }
     }
     mods {
-        "${archivesBaseName}" {
+        "${project.archives_base_name}" {
             sourceSet sourceSets.main
         }
     }
@@ -64,13 +64,19 @@ sourceSets {
 
 processResources {
     inputs.property "version", project.mod_version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "neoforge_version", project.neoforge_version
+    inputs.property "minecraft_version_range", project.minecraft_version_range
+    inputs.property "neoforge_version_range", project.neoforge_version_range
 
     filesMatching("META-INF/neoforge.mods.toml") {
         expand(
                 "mod_id": project.archives_base_name,
                 "version": project.mod_version,
                 "minecraft_version": project.minecraft_version,
-                "neoforge_version": project.neoforge_version
+                "neoforge_version": project.neoforge_version,
+                "minecraft_version_range": project.minecraft_version_range,
+                "neoforge_version_range": project.neoforge_version_range
         )
     }
 }
@@ -81,10 +87,12 @@ tasks.matching { it.name == "createMinecraftArtifacts" }.configureEach {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
-    it.options.release = 21
+    it.options.release = 25
 }
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
     withSourcesJar()
 }
 
@@ -93,13 +101,13 @@ jar {
     from("src/main/generated")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${project.archives_base_name}" }
     }
 }
 
 javadoc {
     options {
-        source = "21"
+        source = "25"
         encoding = "UTF-8"
         charSet = "UTF-8"
         memberLevel = JavadocMemberLevel.PROTECTED

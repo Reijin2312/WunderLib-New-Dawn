@@ -7,7 +7,7 @@ import de.ambertation.wunderlib.ui.layout.values.Alignment;
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.input.MouseButtonEvent;
 
@@ -22,7 +22,7 @@ public class Container extends LayoutComponent<Container.ContainerRenderer, Cont
 
         @Override
         public void renderInBounds(
-                GuiGraphics guiGraphics,
+                GuiGraphicsExtractor GuiGraphicsExtractor,
                 int mouseX,
                 int mouseY,
                 float deltaTicks,
@@ -31,11 +31,11 @@ public class Container extends LayoutComponent<Container.ContainerRenderer, Cont
         ) {
             if (linkedContainer != null) {
                 if ((linkedContainer.backgroundColor & 0xFF000000) != 0) {
-                    guiGraphics.fill(0, 0, bounds.width, bounds.height, linkedContainer.backgroundColor);
+                    GuiGraphicsExtractor.fill(0, 0, bounds.width, bounds.height, linkedContainer.backgroundColor);
                 }
 
                 if ((linkedContainer.outlineColor & 0xFF000000) != 0)
-                    RenderHelper.outline(guiGraphics, 0, 0, bounds.width, bounds.height, linkedContainer.outlineColor);
+                    RenderHelper.outline(GuiGraphicsExtractor, 0, 0, bounds.width, bounds.height, linkedContainer.outlineColor);
             }
         }
     }
@@ -184,7 +184,7 @@ public class Container extends LayoutComponent<Container.ContainerRenderer, Cont
 
     @Override
     protected void renderInBounds(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             int mouseX,
             int mouseY,
             float deltaTicks,
@@ -192,16 +192,16 @@ public class Container extends LayoutComponent<Container.ContainerRenderer, Cont
             Rectangle clipRect
     ) {
         if (visible) {
-            super.renderInBounds(guiGraphics, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
+            super.renderInBounds(GuiGraphicsExtractor, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
 
-            setClippingRect(guiGraphics, renderBounds, clipRect);
+            setClippingRect(GuiGraphicsExtractor, renderBounds, clipRect);
             for (var child : children) {
                 child.component.render(
-                        guiGraphics, mouseX, mouseY, deltaTicks,
+                        GuiGraphicsExtractor, mouseX, mouseY, deltaTicks,
                         renderBounds, clipRect
                 );
             }
-            setClippingRect(guiGraphics, renderBounds, null);
+            setClippingRect(GuiGraphicsExtractor, renderBounds, null);
         }
     }
 
@@ -287,3 +287,4 @@ public class Container extends LayoutComponent<Container.ContainerRenderer, Cont
         return c;
     }
 }
+

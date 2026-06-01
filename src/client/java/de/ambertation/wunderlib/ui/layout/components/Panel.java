@@ -4,7 +4,7 @@ import de.ambertation.wunderlib.ui.layout.components.input.RelativeContainerEven
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.vanilla.LayoutScreen;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -113,15 +113,15 @@ public class Panel implements ComponentWithBounds, RelativeContainerEventHandler
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float deltaTicks) {
+    public void extractRenderState(GuiGraphicsExtractor GuiGraphicsExtractor, int mouseX, int mouseY, float deltaTicks) {
         if (child != null) {
-            guiGraphics.pose().pushMatrix();
+            GuiGraphicsExtractor.pose().pushMatrix();
 
             // For 2D UI rendering, we only need x,y translation
-            guiGraphics.pose().translate(bounds.left, bounds.top);
+            GuiGraphicsExtractor.pose().translate(bounds.left, bounds.top);
 
             child.render(
-                    guiGraphics,
+                    GuiGraphicsExtractor,
                     inputEnabled ? mouseX - bounds.left : -1000,
                     mouseY - bounds.top,
                     deltaTicks,
@@ -129,7 +129,7 @@ public class Panel implements ComponentWithBounds, RelativeContainerEventHandler
                     bounds
             );
 
-            guiGraphics.pose().popMatrix();
+            GuiGraphicsExtractor.pose().popMatrix();
         }
     }
 
@@ -181,3 +181,4 @@ public class Panel implements ComponentWithBounds, RelativeContainerEventHandler
         return false;
     }
 }
+

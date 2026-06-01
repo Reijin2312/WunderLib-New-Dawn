@@ -7,7 +7,7 @@ import de.ambertation.wunderlib.ui.layout.values.Size;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 import de.ambertation.wunderlib.ui.vanilla.VanillaScrollerRenderer;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -56,16 +56,16 @@ public abstract class AbstractStack<R extends ComponentRenderer, T extends Abstr
 
     @Override
     protected void renderInBounds(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             int mouseX,
             int mouseY,
             float deltaTicks,
             Rectangle renderBounds,
             Rectangle clipRect
     ) {
-        super.renderInBounds(guiGraphics, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
+        super.renderInBounds(GuiGraphicsExtractor, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
         for (LayoutComponent<?, ?> c : components) {
-            c.render(guiGraphics, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
+            c.render(GuiGraphicsExtractor, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
         }
     }
 
@@ -312,3 +312,4 @@ public abstract class AbstractStack<R extends ComponentRenderer, T extends Abstr
         return i;
     }
 }
+

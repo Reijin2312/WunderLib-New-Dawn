@@ -8,7 +8,7 @@ import de.ambertation.wunderlib.ui.layout.values.Alignment;
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -141,7 +141,7 @@ public class MultiLineText extends LayoutComponent<MultiLineText.MultiLineTextRe
 
         @Override
         public void renderInBounds(
-                GuiGraphics guiGraphics,
+                GuiGraphicsExtractor GuiGraphicsExtractor,
                 int mouseX,
                 int mouseY,
                 float deltaTicks,
@@ -164,7 +164,7 @@ public class MultiLineText extends LayoutComponent<MultiLineText.MultiLineTextRe
                     } else {
                         left = 0;
                     }
-                    guiGraphics.drawString(
+                    GuiGraphicsExtractor.text(
                             getFont(),
                             textWithWidth.text(),
                             left,
@@ -181,3 +181,4 @@ public class MultiLineText extends LayoutComponent<MultiLineText.MultiLineTextRe
         return false;
     }
 }
+
