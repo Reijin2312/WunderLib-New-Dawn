@@ -8,10 +8,10 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class Image extends CustomRenderComponent {
     protected Rectangle uvRect;
     public final ResourceLocation location;
@@ -109,4 +109,3 @@ public class Image extends CustomRenderComponent {
         focused = bl;
     }
 }
-

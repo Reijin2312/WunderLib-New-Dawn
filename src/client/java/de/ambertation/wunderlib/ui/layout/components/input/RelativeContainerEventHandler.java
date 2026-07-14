@@ -5,12 +5,12 @@ import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.Optional;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public interface RelativeContainerEventHandler extends ContainerEventHandler {
     Rectangle getInputBounds();
 
@@ -52,5 +52,4 @@ public interface RelativeContainerEventHandler extends ContainerEventHandler {
         return res || r.contains(x, y);
     }
 }
-
 

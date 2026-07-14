@@ -4,8 +4,8 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import de.ambertation.wunderlib.ui.layout.components.render.EditBoxRenderer;
 import de.ambertation.wunderlib.ui.layout.values.Value;
@@ -14,7 +14,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class Input extends AbstractVanillaComponent<EditBox, Input> {
     private Consumer<String> responder;
     private BiFunction<String, Integer, FormattedCharSequence> formatter;
@@ -101,4 +101,3 @@ public class Input extends AbstractVanillaComponent<EditBox, Input> {
 
 
 }
-

@@ -6,10 +6,10 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class Checkbox extends AbstractVanillaComponent<net.minecraft.client.gui.components.Checkbox, Checkbox> {
     public static SelectionChanged IGNORE_CHANGE = (a, b) -> {
     };
@@ -81,4 +81,3 @@ public class Checkbox extends AbstractVanillaComponent<net.minecraft.client.gui.
         return super.getContentWidth();
     }
 }
-

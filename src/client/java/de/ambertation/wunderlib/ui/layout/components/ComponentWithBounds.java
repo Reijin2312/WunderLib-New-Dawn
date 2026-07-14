@@ -1,12 +1,11 @@
 package de.ambertation.wunderlib.ui.layout.components;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public interface ComponentWithBounds {
     Rectangle getRelativeBounds();
 }
-

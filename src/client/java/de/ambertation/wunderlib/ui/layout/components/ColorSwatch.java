@@ -7,10 +7,10 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 
 import net.minecraft.client.gui.GuiGraphics;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class ColorSwatch extends CustomRenderComponent<ColorSwatch> {
     private int color;
     private int borderColor = ColorHelper.BLACK;
@@ -84,4 +84,3 @@ public class ColorSwatch extends CustomRenderComponent<ColorSwatch> {
         focused = bl;
     }
 }
-

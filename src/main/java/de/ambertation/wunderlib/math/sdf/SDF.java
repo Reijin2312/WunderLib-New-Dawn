@@ -11,11 +11,12 @@ import de.ambertation.wunderlib.math.sdf.shapes.*;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.KeyDispatchDataCodec;
 
-import net.neoforged.neoforge.registries.RegistryBuilder;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -314,10 +315,10 @@ public abstract class SDF {
 
 
     //---------------------- SDF REGISTRY ----------------------
-    public static final ResourceKey<Registry<MapCodec<? extends SDF>>> SDF_REGISTRY_KEY
-            = ResourceKey.createRegistryKey(WunderLib.ID("sdf"));
-    public static final Registry<MapCodec<? extends SDF>> SDF_REGISTRY
-            = new RegistryBuilder<>(SDF_REGISTRY_KEY).sync(true).create();
+    public static final MappedRegistry<MapCodec<? extends SDF>> SDF_REGISTRY = FabricRegistryBuilder
+            .<MapCodec<? extends SDF>>createSimple(null, WunderLib.ID("sdf"))
+            .attribute(RegistryAttribute.MODDED)
+            .buildAndRegister();
 
     public static final Codec<SDF> CODEC = SDF_REGISTRY.byNameCodec()
                                                        .dispatch((sdf) -> sdf.codec().codec(), Function.identity());
@@ -348,4 +349,3 @@ public abstract class SDF {
         bootstrap(SDF_REGISTRY);
     }
 }
-

@@ -8,10 +8,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HorizontalStack extends AbstractHorizontalStack<HorizontalStack> {
     public HorizontalStack(Value width, Value height) {
         super(width, height);
@@ -218,4 +218,3 @@ public class HorizontalStack extends AbstractHorizontalStack<HorizontalStack> {
         return super.addItem(stack);
     }
 }
-

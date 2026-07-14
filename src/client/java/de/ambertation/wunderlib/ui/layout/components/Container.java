@@ -10,14 +10,14 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.LinkedList;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class Container extends LayoutComponent<Container.ContainerRenderer, Container> implements RelativeContainerEventHandler {
     public static class ContainerRenderer implements ComponentRenderer {
         Container linkedContainer;
@@ -50,6 +50,46 @@ public class Container extends LayoutComponent<Container.ContainerRenderer, Cont
         public int getMaxY() {
             return top + component().getContentHeight();
         }
+
+//        public void mouseMoved(double d, double e) {
+//            component.mouseMoved(d, e);
+//        }
+//
+//        public boolean mouseClicked(double d, double e, int i) {
+//            return component.mouseClicked(d, e, i);
+//        }
+//
+//        public boolean mouseReleased(double d, double e, int i) {
+//            return component.mouseReleased(d, e, i);
+//        }
+//
+//        public boolean mouseDragged(double d, double e, int i, double f, double g) {
+//            return component.mouseDragged(d, e, i, f, g);
+//        }
+//
+//        public boolean mouseScrolled(double d, double e, double f) {
+//            return component.mouseScrolled(d, e, f);
+//        }
+//
+//        public boolean keyPressed(int i, int j, int k) {
+//            return component.keyPressed(i, j, k);
+//        }
+//
+//        public boolean keyReleased(int i, int j, int k) {
+//            return component.keyReleased(i, j, k);
+//        }
+//
+//        public boolean charTyped(char c, int i) {
+//            return component.charTyped(c, i);
+//        }
+//
+//        public boolean changeFocus(boolean bl) {
+//            return component.changeFocus(bl);
+//        }
+//
+//        public boolean isMouseOver(double d, double e) {
+//            return component.isMouseOver(d, e);
+//        }
     }
 
     private final List<Positional> children = new LinkedList<>();
@@ -196,14 +236,14 @@ public class Container extends LayoutComponent<Container.ContainerRenderer, Cont
         if (visible) {
             super.renderInBounds(guiGraphics, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
 
-            setClippingRect(guiGraphics, clipRect);
+            setClippingRect(clipRect);
             for (var child : children) {
                 child.component.render(
                         guiGraphics, mouseX, mouseY, deltaTicks,
                         renderBounds, clipRect
                 );
             }
-            setClippingRect(guiGraphics, null);
+            setClippingRect(null);
         }
     }
 
@@ -251,6 +291,10 @@ public class Container extends LayoutComponent<Container.ContainerRenderer, Cont
             return RelativeContainerEventHandler.super.mouseReleased(d, e, i);
         return false;
     }
+
+//    public boolean mouseScrolled(double d, double e, double f) {
+//       return mouseScrolled(d, e, f, 1);
+//    }
 
     @Override
     public boolean mouseScrolled(double d, double e, double f, double g) {

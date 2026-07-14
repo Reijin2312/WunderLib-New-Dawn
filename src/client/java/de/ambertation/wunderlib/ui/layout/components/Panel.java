@@ -1,5 +1,6 @@
 package de.ambertation.wunderlib.ui.layout.components;
 
+
 import de.ambertation.wunderlib.ui.layout.components.input.RelativeContainerEventHandler;
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.vanilla.LayoutScreen;
@@ -10,13 +11,13 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class Panel implements ComponentWithBounds, RelativeContainerEventHandler, NarratableEntry, Renderable {
     protected LayoutComponent<?, ?> child;
     List<? extends GuiEventListener> listeners = List.of();
@@ -118,10 +119,7 @@ public class Panel implements ComponentWithBounds, RelativeContainerEventHandler
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float deltaTicks) {
         if (child != null) {
             guiGraphics.pose().pushPose();
-
-            // For 2D UI rendering, we only need x,y translation
             guiGraphics.pose().translate(bounds.left, bounds.top, zIndex);
-
             child.render(
                     guiGraphics,
                     inputEnabled ? mouseX - bounds.left : -1000,
@@ -130,7 +128,6 @@ public class Panel implements ComponentWithBounds, RelativeContainerEventHandler
                     bounds,
                     bounds
             );
-
             guiGraphics.pose().popPose();
         }
     }

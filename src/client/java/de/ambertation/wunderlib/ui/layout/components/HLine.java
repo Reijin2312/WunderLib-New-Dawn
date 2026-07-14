@@ -8,10 +8,10 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 
 import net.minecraft.client.gui.GuiGraphics;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class HLine extends CustomRenderComponent {
     private int color = ColorHelper.DEFAULT_TEXT;
 
@@ -63,4 +63,3 @@ public class HLine extends CustomRenderComponent {
         focused = bl;
     }
 }
-

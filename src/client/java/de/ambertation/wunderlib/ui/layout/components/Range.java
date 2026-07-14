@@ -6,10 +6,10 @@ import de.ambertation.wunderlib.ui.vanilla.Slider;
 
 import net.minecraft.network.chat.Component;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class Range<N extends Number> extends AbstractVanillaComponent<Slider<N>, Range<N>> {
     @FunctionalInterface
     public interface ValueChanged<N extends Number> {
@@ -104,4 +104,3 @@ public class Range<N extends Number> extends AbstractVanillaComponent<Slider<N>,
         focused = bl;
     }
 }
-

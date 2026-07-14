@@ -1,9 +1,9 @@
 package de.ambertation.wunderlib.ui.layout.values;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public interface SizeType {
     FitContent FIT_CONTENT = new FitContent();
     FitContentOrFill FIT_CONTENT_OR_FILL = new FitContentOrFill();
@@ -72,4 +72,3 @@ public interface SizeType {
         }
     }
 }
-

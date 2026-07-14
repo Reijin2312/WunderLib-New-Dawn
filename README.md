@@ -2,7 +2,7 @@
 
 # WunderLib
 
-WunderLib is a library mod mainly focused on UI and Math, MC 1.21.1
+WunderLib is a library mod mainly focused on UI and Math, MC 1.19
 
 ## Importing:
 
@@ -18,20 +18,20 @@ repositories {
 ```
 dependencies {
     ...
-    implementation "de.ambertation:wunderlib:${project.wunderlib_version}"
+    modImplementation "com.github.quiqueck:WunderLib:${project.wunderlib_version}"
+    include "com.github.quiqueck:WunderLib:${project.wunderlib_version}"
 }
 ```
 
-You should also add a dependency to `neoforge.mods.toml`. WunderLib uses Semantic versioning, so adding the dependency as
+The `include` line will bundle the lib with your mod, so users will not have to download it separately.
+You should also add a dependency to `fabirc.mod.json`. WunderLib uses Semantic versioning, so adding the dependency as
 follows should respect that and ensure that your mod is not loaded with an incompatible version of WunderLib:
 
 ```
-[[dependencies.${mod_id}]]
-modId="wunderlib"
-mandatory=true
-versionRange="[1.0,)"
-ordering="NONE"
-side="BOTH"
+"depends": {
+  ...
+  "wunderlib": ["1.0.x", ">1.0.0"]
+}
 ```
 
 In this example `1.0.1` is the WunderLib Version you are building against.

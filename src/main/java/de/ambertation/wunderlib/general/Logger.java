@@ -5,29 +5,13 @@ import de.ambertation.wunderlib.WunderLib;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
-/**
- * A wrapper class for Log4j logging functionality in Minecraft mods.
- * This class provides simplified logging methods for different log levels 
- * (DEBUG, INFO, WARN, ERROR) with various parameter options.
- * 
- * By default, it uses the WunderLib mod ID for logger identification,
- * but can be extended with custom mod IDs through the protected constructor.
- */
 public class Logger {
     private final org.apache.logging.log4j.Logger LOGGER;
 
-    /**
-     * Creates a new Logger instance using the WunderLib mod ID.
-     */
     public Logger() {
         this(WunderLib.MOD_ID);
     }
 
-    /**
-     * Creates a new Logger instance with a specified mod ID.
-     * 
-     * @param modID the mod ID to use for logger identification
-     */
     protected Logger(String modID) {
         LOGGER = LogManager.getLogger(modID);
     }
@@ -143,4 +127,3 @@ public class Logger {
         LOGGER.error(message, ex);
     }
 }
-

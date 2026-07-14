@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "wunderlib",
+  "version": "21.0.8",
+  "name": "WunderLib",
+  "description": "A UI, Math and Networking Library",
+  "authors": [
+    "Quiqueck"
+  ],
+  "contact": {
+    "homepage": "https://github.com/quiqueck/WunderLib",
+    "issues": "https://github.com/quiqueck/WunderLib/issues",
+    "sources": "https://github.com/quiqueck/WunderLib"
+  },
+  "license": "MIT",
+  "icon": "assets/wunderlib/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "de.ambertation.wunderlib.WunderLibClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.3",
+    "fabric-api": ">=0.100.0",
+    "minecraft": [
+      "1.21",
+      "1.21.1"
+    ],
+    "java": ">=21"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
+  }
+}

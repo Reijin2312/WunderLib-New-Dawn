@@ -13,14 +13,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.LinkedList;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public abstract class AbstractStack<R extends ComponentRenderer, T extends AbstractStack<R, T>> extends LayoutComponent<R, T> implements RelativeContainerEventHandler {
     protected final List<LayoutComponent<?, ?>> components = new LinkedList<>();
 
@@ -315,5 +315,4 @@ public abstract class AbstractStack<R extends ComponentRenderer, T extends Abstr
         return i;
     }
 }
-
 

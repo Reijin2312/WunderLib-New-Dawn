@@ -3,12 +3,10 @@ package de.ambertation.wunderlib.ui.layout.components.render;
 
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public interface ScrollerRenderer {
     default int scrollerHeight() {
         return 16;
@@ -22,10 +20,9 @@ public interface ScrollerRenderer {
     }
 
     default Rectangle getScrollerBounds(Rectangle renderBounds) {
-        // relative top the current bounds
         return new Rectangle(
-                renderBounds.right() - this.scrollerWidth() - renderBounds.left,
-                0,
+                renderBounds.right() - this.scrollerWidth(),
+                renderBounds.top,
                 this.scrollerWidth(),
                 renderBounds.height
         );
@@ -40,12 +37,5 @@ public interface ScrollerRenderer {
         );
     }
 
-    void renderScrollBar(
-            GuiGraphics guiGraphics,
-            Rectangle renderBounds,
-            int pickerOffset,
-            int pickerSize,
-            float zIndex
-    );
+    void renderScrollBar(Rectangle renderBounds, int pickerOffset, int pickerSize, float zIndex);
 }
-

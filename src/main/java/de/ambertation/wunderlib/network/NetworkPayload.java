@@ -1,13 +1,13 @@
 package de.ambertation.wunderlib.network;
 
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 import org.jetbrains.annotations.NotNull;
 
 public abstract class NetworkPayload<T extends NetworkPayload<T>> implements CustomPacketPayload {
     public interface NetworkPayloadFactory<T extends NetworkPayload<T>> {
-        T create(RegistryFriendlyByteBuf buf);
+        T create(FriendlyByteBuf buf);
     }
 
     protected final PacketHandler<T> packetHandler;
@@ -16,7 +16,7 @@ public abstract class NetworkPayload<T extends NetworkPayload<T>> implements Cus
         this.packetHandler = packetHandler;
     }
 
-    protected abstract void write(RegistryFriendlyByteBuf buf);
+    protected abstract void write(FriendlyByteBuf buf);
 
     @Override
     public final @NotNull Type<T> type() {
@@ -27,4 +27,3 @@ public abstract class NetworkPayload<T extends NetworkPayload<T>> implements Cus
         return false;
     }
 }
-

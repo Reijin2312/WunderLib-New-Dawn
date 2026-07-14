@@ -3,7 +3,7 @@ package de.ambertation.wunderlib.configs;
 import de.ambertation.wunderlib.WunderLib;
 import de.ambertation.wunderlib.utils.Version;
 
-import net.neoforged.fml.loading.FMLPaths;
+import net.fabricmc.loader.api.FabricLoader;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,7 +21,7 @@ public class ConfigFile extends AbstractConfig<ConfigFile> {
 
     public ConfigFile(Version.ModVersionProvider versionProvider, String basePath, String category) {
         super(versionProvider, basePath, category);
-        final Path dir = FMLPaths.CONFIGDIR.get().resolve(basePath);
+        final Path dir = FabricLoader.getInstance().getConfigDir().resolve(basePath);
         path = dir.resolve(category + ".json").toFile();
 
         if (!dir.toFile().exists()) dir.toFile().mkdirs();
@@ -58,4 +58,3 @@ public class ConfigFile extends AbstractConfig<ConfigFile> {
         return true;
     }
 }
-

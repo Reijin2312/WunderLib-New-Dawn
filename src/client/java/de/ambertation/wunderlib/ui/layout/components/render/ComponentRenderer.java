@@ -4,10 +4,10 @@ import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 
 import net.minecraft.client.gui.GuiGraphics;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public interface ComponentRenderer {
     void renderInBounds(
             GuiGraphics guiGraphics,
@@ -18,4 +18,3 @@ public interface ComponentRenderer {
             Rectangle clipRect
     );
 }
-

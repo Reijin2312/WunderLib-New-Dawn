@@ -9,10 +9,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class VerticalStack extends AbstractVerticalStack<VerticalStack> {
     public VerticalStack(Value width, Value height) {
         super(width, height);
@@ -230,4 +230,3 @@ public class VerticalStack extends AbstractVerticalStack<VerticalStack> {
         return super.addItem(stack);
     }
 }
-
