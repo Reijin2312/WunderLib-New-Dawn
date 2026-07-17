@@ -52,4 +52,3 @@ public interface RelativeContainerEventHandler extends ContainerEventHandler {
         return res || r.contains(x, y);
     }
 }
-

@@ -84,4 +84,3 @@ public class AbstractHorizontalStack<S extends AbstractHorizontalStack<S>> exten
         return addColumn(Value.fit(), Value.fit());
     }
 }
-

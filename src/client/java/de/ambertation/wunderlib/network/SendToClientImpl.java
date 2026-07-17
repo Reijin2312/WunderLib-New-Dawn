@@ -36,7 +36,7 @@ public class SendToClientImpl implements SendToClientAdapter {
 
         payload.processOnClient(context.responseSender());
         final var client = context.client();
-        
+
         if (client != null) {
             final Runnable runner = () -> payload.processOnGameThread(client);
 

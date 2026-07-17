@@ -64,4 +64,3 @@ public class Ellipsoid extends BaseShape implements Rotatable {
         return DEFAULT_TRANSFORM;
     }
 }
-
