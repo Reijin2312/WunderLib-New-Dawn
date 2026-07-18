@@ -5,10 +5,8 @@ import de.ambertation.wunderlib.WunderLib;
 import de.ambertation.wunderlib.utils.Version;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import com.google.gson.*;
 
@@ -23,7 +21,7 @@ public abstract class AbstractConfig<C extends AbstractConfig<C>> {
     static final Gson JSON_BUILDER = new GsonBuilder().setPrettyPrinting()
                                                       .create();
     public final String category;
-    public final ResourceLocation location;
+    public final Identifier location;
     private final List<C.Value<?, ?>> knownValues = new LinkedList<>();
     private JsonObject root;
     private boolean modified;
@@ -37,7 +35,7 @@ public abstract class AbstractConfig<C extends AbstractConfig<C>> {
         this(versionProvider, versionProvider.mk(category), namespace + "." + category);
     }
 
-    protected AbstractConfig(Version.ModVersionProvider versionProvider, ResourceLocation location, String category) {
+    protected AbstractConfig(Version.ModVersionProvider versionProvider, Identifier location, String category) {
         this.category = category;
         this.versionProvider = versionProvider;
         this.location = location;
@@ -175,7 +173,6 @@ public abstract class AbstractConfig<C extends AbstractConfig<C>> {
      *
      * @return all stored values
      */
-    @Environment(EnvType.CLIENT)
     public List<C.Value<?, ?>> getAllValues() {
         return knownValues;
     }
@@ -185,7 +182,6 @@ public abstract class AbstractConfig<C extends AbstractConfig<C>> {
      *
      * @return All visible Values
      */
-    @Environment(EnvType.CLIENT)
     public List<AbstractConfig<?>.Value<?, ?>> getAllVisibleValues() {
         List<AbstractConfig<?>.Value<?, ?>> values = new ArrayList<>();
         for (AbstractConfig<?>.Value<?, ?> v : knownValues) {
@@ -202,7 +198,6 @@ public abstract class AbstractConfig<C extends AbstractConfig<C>> {
      * @param group The group to filter for
      * @return All visible Values in the given group
      */
-    @Environment(EnvType.CLIENT)
     public List<AbstractConfig<?>.Value<?, ?>> getAllVisibleValues(Group group) {
         List<AbstractConfig<?>.Value<?, ?>> values = new ArrayList<>();
         for (AbstractConfig<?>.Value<?, ?> v : knownValues) {
@@ -221,7 +216,6 @@ public abstract class AbstractConfig<C extends AbstractConfig<C>> {
      * @param configFiles an array of config files
      * @return All visible Values in the given group
      */
-    @Environment(EnvType.CLIENT)
     public static List<AbstractConfig<?>.Value<?, ?>> getAllVisibleValues(
             Group group,
             List<AbstractConfig<?>> configFiles
@@ -244,7 +238,6 @@ public abstract class AbstractConfig<C extends AbstractConfig<C>> {
      *
      * @return All stored groups
      */
-    @Environment(EnvType.CLIENT)
     public List<Group> getAllGroups() {
         List<Group> groups = new ArrayList<>();
         for (AbstractConfig<?>.Value<?, ?> v : knownValues) {
@@ -262,7 +255,6 @@ public abstract class AbstractConfig<C extends AbstractConfig<C>> {
      * @param configFiles an array of config files
      * @return All stored groups
      */
-    @Environment(EnvType.CLIENT)
     public static List<Group> getAllGroups(List<AbstractConfig<?>> configFiles) {
         List<Group> groups = new ArrayList<>();
         for (AbstractConfig<?> c : configFiles) {
@@ -276,7 +268,6 @@ public abstract class AbstractConfig<C extends AbstractConfig<C>> {
         return groups;
     }
 
-    @Environment(EnvType.CLIENT)
     public static String getAllCategories(List<AbstractConfig<?>> configFiles) {
         StringBuilder sb = new StringBuilder();
         for (AbstractConfig<?> c : configFiles) {

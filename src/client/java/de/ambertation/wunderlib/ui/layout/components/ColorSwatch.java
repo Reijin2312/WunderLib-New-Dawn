@@ -7,10 +7,7 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 
 import net.minecraft.client.gui.GuiGraphics;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
 public class ColorSwatch extends CustomRenderComponent<ColorSwatch> {
     private int color;
     private int borderColor = ColorHelper.BLACK;

@@ -7,22 +7,17 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
 public class Button extends AbstractVanillaComponent<net.minecraft.client.gui.components.Button, Button> {
     public static final OnTooltip NO_TOOLTIP = (button, guiGraphics, i, j) -> {
     };
     public static final OnPress NO_ACTION = (button) -> {
     };
 
-    @Environment(EnvType.CLIENT)
     public interface OnTooltip {
         void onTooltip(Button button, GuiGraphics guiGraphics, int mouseX, int mouseY);
     }
 
-    @Environment(EnvType.CLIENT)
     public interface OnPress {
         void onPress(Button button);
     }

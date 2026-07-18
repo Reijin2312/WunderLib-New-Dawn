@@ -8,10 +8,7 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 
 import net.minecraft.client.gui.GuiGraphics;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
 public class VLine extends CustomRenderComponent {
     private int color = ColorHelper.DEFAULT_TEXT;
 

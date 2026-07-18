@@ -9,37 +9,34 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import java.util.LinkedList;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
-@Environment(EnvType.CLIENT)
 public class ConfigScreen extends LayoutScreenWithIcon {
     protected final List<AbstractConfig<?>> configFiles;
     protected final List<OnCheckboxChangeEvent> checkboxListeners;
 
     public ConfigScreen(
             Component component,
-            ResourceLocation icon, List<AbstractConfig<?>> configs
+            Identifier icon, List<AbstractConfig<?>> configs
     ) {
         this(EMPTY_SCREEN, icon, component, configs);
     }
 
     public ConfigScreen(
             @Nullable Screen parent,
-            ResourceLocation icon, Component component, List<AbstractConfig<?>> configs
+            Identifier icon, Component component, List<AbstractConfig<?>> configs
     ) {
         this(setScreenOnClose(parent), icon, component, configs);
     }
 
     public ConfigScreen(
             @Nullable Screen parent,
-            ResourceLocation icon,
+            Identifier icon,
             Component component,
             List<AbstractConfig<?>> configs,
             int topPadding,
@@ -51,14 +48,14 @@ public class ConfigScreen extends LayoutScreenWithIcon {
 
     public ConfigScreen(
             Runnable onClose,
-            ResourceLocation icon, Component component, List<AbstractConfig<?>> configs
+            Identifier icon, Component component, List<AbstractConfig<?>> configs
     ) {
         this(onClose, icon, component, configs, 20, 10, 20, 15);
     }
 
     public ConfigScreen(
             @Nullable Runnable onClose,
-            ResourceLocation icon,
+            Identifier icon,
             Component component,
             List<AbstractConfig<?>> configs,
             int topPadding,
@@ -70,7 +67,7 @@ public class ConfigScreen extends LayoutScreenWithIcon {
 
     public ConfigScreen(
             @Nullable Runnable onClose,
-            ResourceLocation icon,
+            Identifier icon,
             Component component,
             List<AbstractConfig<?>> configs,
             int topPadding,

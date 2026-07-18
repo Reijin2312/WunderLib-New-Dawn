@@ -11,8 +11,9 @@ import de.ambertation.wunderlib.math.sdf.shapes.*;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
+import net.minecraft.core.MappedRegistry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.KeyDispatchDataCodec;
 
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
@@ -315,9 +316,11 @@ public abstract class SDF {
 
 
     //---------------------- SDF REGISTRY ----------------------
+    public static final ResourceKey<Registry<MapCodec<? extends SDF>>> SDF_REGISTRY_KEY
+            = ResourceKey.createRegistryKey(WunderLib.ID("sdf"));
     public static final MappedRegistry<MapCodec<? extends SDF>> SDF_REGISTRY = FabricRegistryBuilder
-            .<MapCodec<? extends SDF>>createSimple(null, WunderLib.ID("sdf"))
-            .attribute(RegistryAttribute.MODDED)
+            .createSimple(SDF_REGISTRY_KEY)
+            .attribute(RegistryAttribute.SYNCED)
             .buildAndRegister();
 
     public static final Codec<SDF> CODEC = SDF_REGISTRY.byNameCodec()

@@ -1,6 +1,5 @@
 package de.ambertation.wunderlib.ui.layout.components;
 
-
 import de.ambertation.wunderlib.ui.layout.components.input.RelativeContainerEventHandler;
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.vanilla.LayoutScreen;
@@ -10,14 +9,12 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.input.MouseButtonEvent;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
-@Environment(EnvType.CLIENT)
 public class Panel implements ComponentWithBounds, RelativeContainerEventHandler, NarratableEntry, Renderable {
     protected LayoutComponent<?, ?> child;
     List<? extends GuiEventListener> listeners = List.of();
@@ -118,8 +115,11 @@ public class Panel implements ComponentWithBounds, RelativeContainerEventHandler
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float deltaTicks) {
         if (child != null) {
-            guiGraphics.pose().pushPose();
-            guiGraphics.pose().translate(bounds.left, bounds.top, zIndex);
+            guiGraphics.pose().pushMatrix();
+
+            // For 2D UI rendering, we only need x,y translation
+            guiGraphics.pose().translate(bounds.left, bounds.top);
+
             child.render(
                     guiGraphics,
                     inputEnabled ? mouseX - bounds.left : -1000,
@@ -128,7 +128,8 @@ public class Panel implements ComponentWithBounds, RelativeContainerEventHandler
                     bounds,
                     bounds
             );
-            guiGraphics.pose().popPose();
+
+            guiGraphics.pose().popMatrix();
         }
     }
 
@@ -138,24 +139,24 @@ public class Panel implements ComponentWithBounds, RelativeContainerEventHandler
     }
 
     @Override
-    public boolean mouseClicked(double d, double e, int i) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean isInside) {
         if (inputEnabled)
-            return RelativeContainerEventHandler.super.mouseClicked(d, e, i);
+            return RelativeContainerEventHandler.super.mouseClicked(event, isInside);
 
         return false;
     }
 
     @Override
-    public boolean mouseDragged(double d, double e, int i, double f, double g) {
+    public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
         if (inputEnabled)
-            return RelativeContainerEventHandler.super.mouseDragged(d, e, i, f, g);
+            return RelativeContainerEventHandler.super.mouseDragged(event, dragX, dragY);
         return false;
     }
 
     @Override
-    public boolean mouseReleased(double d, double e, int i) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         if (inputEnabled)
-            return RelativeContainerEventHandler.super.mouseReleased(d, e, i);
+            return RelativeContainerEventHandler.super.mouseReleased(event);
         return false;
     }
 

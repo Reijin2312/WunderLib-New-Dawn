@@ -5,13 +5,10 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 
 import net.minecraft.network.chat.Component;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import java.util.LinkedList;
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
 public class Tabs extends AbstractVerticalStack<Tabs> {
     @FunctionalInterface
     public interface OnPageChange {

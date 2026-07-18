@@ -34,7 +34,7 @@ public class SendToClientImpl implements SendToClientAdapter {
     ) {
         if (!EnvHelper.isClient()) return;
 
-        payload.processOnClient(context.responseSender());
+        payload.processOnClient(context.responseSender()::sendPacket);
         final var client = context.client();
 
         if (client != null) {

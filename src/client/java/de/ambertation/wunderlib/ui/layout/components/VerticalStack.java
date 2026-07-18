@@ -6,13 +6,10 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 import de.ambertation.wunderlib.ui.vanilla.VanillaScrollerRenderer;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
 public class VerticalStack extends AbstractVerticalStack<VerticalStack> {
     public VerticalStack(Value width, Value height) {
         super(width, height);
@@ -136,12 +133,12 @@ public class VerticalStack extends AbstractVerticalStack<VerticalStack> {
     }
 
     @Override
-    public Image addIcon(ResourceLocation location, Size resourceSize) {
+    public Image addIcon(Identifier location, Size resourceSize) {
         return super.addIcon(location, resourceSize);
     }
 
     @Override
-    public Image addImage(Value width, Value height, ResourceLocation location, Size resourceSize) {
+    public Image addImage(Value width, Value height, Identifier location, Size resourceSize) {
         return super.addImage(width, height, location, resourceSize);
     }
 

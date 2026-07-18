@@ -7,10 +7,7 @@ import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 
 import net.minecraft.client.gui.GuiGraphics;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
 public class ButtonRenderer extends AbstractVanillaComponentRenderer<net.minecraft.client.gui.components.Button, Button> {
     double deltaSum = 0;
     double deltaSum2 = .34;

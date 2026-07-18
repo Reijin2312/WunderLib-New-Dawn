@@ -5,15 +5,11 @@ import de.ambertation.wunderlib.ui.layout.values.Alignment;
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
+
 public abstract class LayoutComponent<R extends ComponentRenderer, L extends LayoutComponent<R, L>> implements ComponentWithBounds, GuiEventListener {
     protected final R renderer;
     protected final Value width;
@@ -84,18 +80,32 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
         return height.calculatedSize();
     }
 
-    protected final void setClippingRect(Rectangle clippingRect) {
+    /**
+     * Set clipping rectangle using the new GuiGraphics scissor system
+     */
+    protected final void setClippingRect(GuiGraphics guiGraphics, Rectangle renderBounds, Rectangle clippingRect) {
+
         if (clippingRect == null) {
-            RenderSystem.disableScissor();
+            guiGraphics.disableScissor();
             return;
         }
-        final double uiScale = Minecraft.getInstance().getWindow().getGuiScale();
-        final int windowHeight = Minecraft.getInstance().getWindow().getHeight();
-        RenderSystem.enableScissor(
-                (int) (clippingRect.left * uiScale),
-                (int) (windowHeight - (clippingRect.bottom()) * uiScale),
-                (int) (clippingRect.width * uiScale),
-                (int) ((clippingRect.height) * uiScale)
+
+//        guiGraphics.renderOutline(
+//                0,
+//                0,
+//                renderBounds.width,
+//                renderBounds.height,
+//                0xFF00FF00
+//        );
+
+        // GuiGraphics#enableScissor transforms coordinates by the current pose.
+        // Convert absolute clip bounds into local coordinates first to avoid double-translation.
+        Rectangle localClip = clippingRect.movedBy(-renderBounds.left, -renderBounds.top);
+        guiGraphics.enableScissor(
+                localClip.left,
+                localClip.top,
+                localClip.right(),
+                localClip.bottom()
         );
     }
 
@@ -109,13 +119,19 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
     ) {
         Rectangle r = relativeBounds.movedBy(parentBounds.left, parentBounds.top);
         Rectangle clip = r.intersect(clipRect);
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(relativeBounds.left, relativeBounds.top, 0);
+
+        // The new Matrix System has a max stack depth of 15,
+        // We need to use it sparingly!
+        //guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().translate(relativeBounds.left, relativeBounds.top);
+
         //if (r.overlaps(clip))
         {
             renderInBounds(guiGraphics, mouseX - relativeBounds.left, mouseY - relativeBounds.top, deltaTicks, r, clip);
         }
-        guiGraphics.pose().popPose();
+
+        guiGraphics.pose().translate(-relativeBounds.left, -relativeBounds.top);
+        //guiGraphics.pose().popMatrix();
     }
 
     protected void renderInBounds(
@@ -127,9 +143,9 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
             Rectangle clipRect
     ) {
         if (renderer != null) {
-            setClippingRect(clipRect);
+            setClippingRect(guiGraphics, renderBounds, clipRect);
             renderer.renderInBounds(guiGraphics, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
-            setClippingRect(null);
+            setClippingRect(guiGraphics, renderBounds, null);
         }
     }
 
@@ -146,7 +162,6 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
                     width.calculatedSize() + "x" + height.calculatedSize() +
                     ")";
         }
-
     }
 
     public L alignTop() {

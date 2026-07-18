@@ -4,7 +4,7 @@ import de.ambertation.wunderlib.ui.ColorHelper;
 import de.ambertation.wunderlib.ui.layout.components.*;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
@@ -12,17 +12,15 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Environment(EnvType.CLIENT)
 public abstract class LayoutScreen extends Screen {
     protected static final Runnable EMPTY_SCREEN = () -> {
         Minecraft.getInstance().setScreen(null);
     };
+
     public interface OverlayProvider {
         @NotNull
         Panel getOverlay();
@@ -96,12 +94,14 @@ public abstract class LayoutScreen extends Screen {
     protected abstract LayoutComponent<?, ?> initContent();
 
     protected void openLink(String uri) {
-        ConfirmLinkScreen cls = new ConfirmLinkScreen(bl -> {
-            if (bl) {
-                Util.getPlatform().openUri(uri);
-            }
-            this.minecraft.setScreen(this);
-        }, uri, true);
+        ConfirmLinkScreen cls = new ConfirmLinkScreen(
+                bl -> {
+                    if (bl) {
+                        Util.getPlatform().openUri(uri);
+                    }
+                    this.minecraft.setScreen(this);
+                }, uri, true
+        );
 
         Minecraft.getInstance().setScreen(cls);
     }
@@ -143,7 +143,7 @@ public abstract class LayoutScreen extends Screen {
     }
 
     public void renderBackgroundLayer(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        renderBackground(guiGraphics, mouseX, mouseY, delta);
+
     }
 
 

@@ -10,17 +10,14 @@ import de.ambertation.wunderlib.ui.vanilla.VanillaScrollerRenderer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import java.util.LinkedList;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
-@Environment(EnvType.CLIENT)
 public abstract class AbstractStack<R extends ComponentRenderer, T extends AbstractStack<R, T>> extends LayoutComponent<R, T> implements RelativeContainerEventHandler {
     protected final List<LayoutComponent<?, ?>> components = new LinkedList<>();
 
@@ -154,13 +151,13 @@ public abstract class AbstractStack<R extends ComponentRenderer, T extends Abstr
     }
 
 
-    protected Image addIcon(ResourceLocation location, Size resourceSize) {
+    protected Image addIcon(Identifier location, Size resourceSize) {
         Image i = new Image(Value.fixed(24), Value.fixed(24), location, resourceSize);
         add(i);
         return i;
     }
 
-    protected Image addImage(Value width, Value height, ResourceLocation location, Size resourceSize) {
+    protected Image addImage(Value width, Value height, Identifier location, Size resourceSize) {
         Image i = new Image(width, height, location, resourceSize);
         add(i);
         return i;

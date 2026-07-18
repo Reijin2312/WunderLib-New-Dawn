@@ -1,7 +1,7 @@
 package de.ambertation.wunderlib.ui;
 
+import de.ambertation.wunderlib.utils.ColorUtilARGB32;
 import net.minecraft.ChatFormatting;
-import net.minecraft.util.FastColor;
 
 public class ColorHelper {
     public static final int BLACK = ChatFormatting.BLACK.getColor() | 0xFF000000;
@@ -28,11 +28,11 @@ public class ColorHelper {
     public static final int OVERLAY_BORDER = 0xFF555566;
 
     public static int color(int r, int g, int b) {
-        return FastColor.ARGB32.color(0xff, r, g, b);
+        return ColorUtilARGB32.color(0xff, r, g, b);
     }
 
     public static int color(int r, int g, int b, int a) {
-        return FastColor.ARGB32.color(a, r, g, b);
+        return ColorUtilARGB32.color(a, r, g, b);
     }
 
     public static int color(float r, float g, float b, float a) {
@@ -48,27 +48,27 @@ public class ColorHelper {
 
     public static int[] toIntTGBA(int color) {
         return new int[]{
-                FastColor.ARGB32.red(color),
-                FastColor.ARGB32.green(color),
-                FastColor.ARGB32.blue(color),
-                FastColor.ARGB32.alpha(color)
+                ColorUtilARGB32.red(color),
+                ColorUtilARGB32.green(color),
+                ColorUtilARGB32.blue(color),
+                ColorUtilARGB32.alpha(color)
         };
     }
 
     public static float[] toFloatArrayRGBA(int color) {
         return new float[]{
-                ((float) FastColor.ARGB32.red(color) / 0xFF),
-                ((float) FastColor.ARGB32.green(color) / 0xFF),
-                ((float) FastColor.ARGB32.blue(color) / 0xFF),
-                ((float) FastColor.ARGB32.alpha(color) / 0xFF),
+                ((float) ColorUtilARGB32.red(color) / 0xFF),
+                ((float) ColorUtilARGB32.green(color) / 0xFF),
+                ((float) ColorUtilARGB32.blue(color) / 0xFF),
+                ((float) ColorUtilARGB32.alpha(color) / 0xFF),
         };
     }
 
     public static String toRGBHex(int color) {
         return "#"
-                + Integer.toHexString(FastColor.ARGB32.red(color))
-                + Integer.toHexString(FastColor.ARGB32.green(color))
-                + Integer.toHexString(FastColor.ARGB32.blue(color));
+                + Integer.toHexString(ColorUtilARGB32.red(color))
+                + Integer.toHexString(ColorUtilARGB32.green(color))
+                + Integer.toHexString(ColorUtilARGB32.blue(color));
     }
 
     public static boolean validHexColor(String hexColor) {
@@ -128,10 +128,10 @@ public class ColorHelper {
     }
 
     public static int blendColors(float t, int c1, int c2) {
-        int r = (int) (t * FastColor.ARGB32.red(c2) + (1 - t) * FastColor.ARGB32.red(c1));
-        int g = (int) (t * FastColor.ARGB32.green(c2) + (1 - t) * FastColor.ARGB32.green(c1));
-        int b = (int) (t * FastColor.ARGB32.blue(c2) + (1 - t) * FastColor.ARGB32.blue(c1));
-        int a = (int) (t * FastColor.ARGB32.alpha(c2) + (1 - t) * FastColor.ARGB32.alpha(c1));
-        return FastColor.ARGB32.color(a, r, g, b);
+        int r = (int) (t * ColorUtilARGB32.red(c2) + (1 - t) * ColorUtilARGB32.red(c1));
+        int g = (int) (t * ColorUtilARGB32.green(c2) + (1 - t) * ColorUtilARGB32.green(c1));
+        int b = (int) (t * ColorUtilARGB32.blue(c2) + (1 - t) * ColorUtilARGB32.blue(c1));
+        int a = (int) (t * ColorUtilARGB32.alpha(c2) + (1 - t) * ColorUtilARGB32.alpha(c1));
+        return ColorUtilARGB32.color(a, r, g, b);
     }
 }

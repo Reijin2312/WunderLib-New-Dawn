@@ -5,24 +5,20 @@ import de.ambertation.wunderlib.ui.layout.values.Size;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.resources.Identifier;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
 public class ImageButton extends Image {
     public static final OnTooltip NO_TOOLTIP = (button, poseStack, i, j) -> {
     };
     public static final OnPress NO_ACTION = (button) -> {
     };
 
-    @Environment(EnvType.CLIENT)
     public interface OnTooltip {
         void onTooltip(ImageButton button, GuiGraphics guiGraphics, int mouseX, int mouseY);
     }
 
-    @Environment(EnvType.CLIENT)
     public interface OnPress {
         void onPress(ImageButton button);
     }
@@ -30,7 +26,7 @@ public class ImageButton extends Image {
     public ImageButton(
             Value width,
             Value height,
-            ResourceLocation location
+            Identifier location
     ) {
         super(width, height, location);
         this.onPress = NO_ACTION;
@@ -40,7 +36,7 @@ public class ImageButton extends Image {
     public ImageButton(
             Value width,
             Value height,
-            ResourceLocation location,
+            Identifier location,
             Size resourceSize
     ) {
         super(width, height, location, resourceSize);
@@ -92,12 +88,14 @@ public class ImageButton extends Image {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int i) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean isInside) {
+        double mouseX = event.x();
+        double mouseY = event.y();
         if (getRelativeBounds().contains(mouseX, mouseY)) {
             onPress.onPress(this);
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, i);
+        return super.mouseClicked(event, isInside);
     }
 
     @Override

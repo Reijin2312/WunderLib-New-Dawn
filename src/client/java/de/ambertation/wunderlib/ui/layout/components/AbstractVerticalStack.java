@@ -1,14 +1,11 @@
 package de.ambertation.wunderlib.ui.layout.components;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import de.ambertation.wunderlib.ui.layout.components.input.RelativeContainerEventHandler;
 import de.ambertation.wunderlib.ui.layout.components.render.NullRenderer;
 import de.ambertation.wunderlib.ui.layout.values.Alignment;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-@Environment(EnvType.CLIENT)
 public class AbstractVerticalStack<S extends AbstractVerticalStack<S>> extends AbstractStack<NullRenderer, S> implements RelativeContainerEventHandler {
     public AbstractVerticalStack(Value width, Value height) {
         super(width, height);

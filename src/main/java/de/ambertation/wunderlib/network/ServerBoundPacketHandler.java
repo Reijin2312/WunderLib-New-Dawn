@@ -2,7 +2,8 @@ package de.ambertation.wunderlib.network;
 
 import de.ambertation.wunderlib.utils.EnvHelper;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -19,7 +20,7 @@ public class ServerBoundPacketHandler<T extends ServerBoundNetworkPayload<T>> ex
     }
 
     public ServerBoundPacketHandler(
-            ResourceLocation channel,
+            Identifier channel,
             NetworkPayload.NetworkPayloadFactory<T> factory
     ) {
         super(channel, factory);
@@ -44,7 +45,7 @@ public class ServerBoundPacketHandler<T extends ServerBoundNetworkPayload<T>> ex
     }
 
     public static <T extends ServerBoundNetworkPayload<T>> ServerBoundPacketHandler<T> register(
-            ResourceLocation channel,
+            Identifier channel,
             NetworkPayload.NetworkPayloadFactory<T> factory
     ) {
         ServerBoundPacketHandler<T> packetHandler = new ServerBoundPacketHandler<>(channel, factory);
@@ -65,12 +66,11 @@ public class ServerBoundPacketHandler<T extends ServerBoundNetworkPayload<T>> ex
             T payload,
             ServerPlayNetworking.Context context
     ) {
-        payload.processOnServer(context.player(), context.responseSender());
+        PacketSender responseSender = context.responseSender()::sendPacket;
+        payload.processOnServer(context.player(), responseSender);
 
-        final Runnable runner = () -> payload.processOnGameThread(context.player().getServer(), context.player());
-        final var server = context
-                .player()
-                .getServer();
+        final var server = ((ServerLevel) context.player().level()).getServer();
+        final Runnable runner = () -> payload.processOnGameThread(server, context.player());
         if (server != null) {
             if (payload.isBlocking()) server.executeBlocking(runner);
             else server.execute(runner);

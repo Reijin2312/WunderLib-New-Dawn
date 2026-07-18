@@ -1,11 +1,10 @@
 package de.ambertation.wunderlib.ui.layout.components;
 
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import de.ambertation.wunderlib.ui.layout.components.render.EditBoxRenderer;
 import de.ambertation.wunderlib.ui.layout.values.Value;
@@ -14,7 +13,6 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-@Environment(EnvType.CLIENT)
 public class Input extends AbstractVanillaComponent<EditBox, Input> {
     private Consumer<String> responder;
     private BiFunction<String, Integer, FormattedCharSequence> formatter;
@@ -41,7 +39,7 @@ public class Input extends AbstractVanillaComponent<EditBox, Input> {
         );
         if (responder != null) eb.setResponder(responder);
         if (filter != null) eb.setFilter(filter);
-        if (formatter != null) eb.setFormatter(formatter);
+        eb.addFormatter((text, position) -> formatter == null ? null : formatter.apply(text, position));
         eb.setValue(initialValue);
         eb.setBordered(true);
         eb.setEditable(true);
@@ -57,7 +55,6 @@ public class Input extends AbstractVanillaComponent<EditBox, Input> {
 
     public Input setFormatter(BiFunction<String, Integer, FormattedCharSequence> formatter) {
         this.formatter = formatter;
-        if (vanillaComponent != null) vanillaComponent.setFormatter(formatter);
         return this;
     }
 
@@ -90,8 +87,8 @@ public class Input extends AbstractVanillaComponent<EditBox, Input> {
     }
 
     @Override
-    public boolean mouseClicked(double x, double y, int button) {
-        return super.mouseClicked(x, y, button);
+    public boolean mouseClicked(MouseButtonEvent event, boolean isInside) {
+        return super.mouseClicked(event, isInside);
     }
 
     @Override

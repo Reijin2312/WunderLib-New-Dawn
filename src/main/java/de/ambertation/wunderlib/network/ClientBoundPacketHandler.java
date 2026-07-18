@@ -1,8 +1,6 @@
 package de.ambertation.wunderlib.network;
 
-import de.ambertation.wunderlib.utils.EnvHelper;
-
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -28,7 +26,7 @@ public class ClientBoundPacketHandler<T extends ClientBoundNetworkPayload<T>> ex
     }
 
     public ClientBoundPacketHandler(
-            ResourceLocation channel,
+            Identifier channel,
             NetworkPayload.NetworkPayloadFactory<T> factory
     ) {
         super(channel, factory);
@@ -47,7 +45,7 @@ public class ClientBoundPacketHandler<T extends ClientBoundNetworkPayload<T>> ex
     }
 
     public static <T extends ClientBoundNetworkPayload<T>> ClientBoundPacketHandler<T> register(
-            ResourceLocation channel,
+            Identifier channel,
             NetworkPayload.NetworkPayloadFactory<T> factory
     ) {
         ClientBoundPacketHandler<T> packetHandler = new ClientBoundPacketHandler<>(channel, factory);
@@ -56,36 +54,24 @@ public class ClientBoundPacketHandler<T extends ClientBoundNetworkPayload<T>> ex
     }
 
     public static <T extends ClientBoundNetworkPayload<T>> void sendToClient(ServerPlayer player, T payload) {
-        if (!EnvHelper.isClient()) {
-            payload.prepareOnServer(player);
-            ServerPlayNetworking.send(player, payload);
-        } else {
-            //
-        }
+        payload.prepareOnServer(player);
+        ServerPlayNetworking.send(player, payload);
     }
 
     public static <T extends ClientBoundNetworkPayload<T>> void sendToClient(
             ServerLevel serverLevel,
             T payload
     ) {
-        if (!EnvHelper.isClient()) {
-            sendToClient(serverLevel.players(), payload);
-        } else {
-            //
-        }
+        sendToClient(serverLevel.players(), payload);
     }
 
     public static <T extends ClientBoundNetworkPayload<T>> void sendToClient(
             Collection<ServerPlayer> players,
             T payload
     ) {
-        if (!EnvHelper.isClient()) {
-            players.forEach(player -> {
-                payload.prepareOnServer(player);
-                ServerPlayNetworking.send(player, payload);
-            });
-        } else {
-            //
-        }
+        players.forEach(player -> {
+            payload.prepareOnServer(player);
+            ServerPlayNetworking.send(player, payload);
+        });
     }
 }
