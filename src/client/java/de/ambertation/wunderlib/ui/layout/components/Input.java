@@ -36,9 +36,43 @@ public class Input extends AbstractVanillaComponent<EditBox, Input> {
                 relativeBounds.width, relativeBounds.height,
                 null,
                 component
-        );
+        ) {
+            private void mutateIfValid(Runnable mutation) {
+                String previousValue = getValue();
+                int previousCursor = getCursorPosition();
+                mutation.run();
+                if (filter != null && !filter.test(getValue())) {
+                    super.setValue(previousValue);
+                    setCursorPosition(Math.min(previousCursor, previousValue.length()));
+                }
+            }
+
+            @Override
+            public void setValue(String value) {
+                if (filter == null || filter.test(value)) super.setValue(value);
+            }
+
+            @Override
+            public void insertText(String text) {
+                mutateIfValid(() -> super.insertText(text));
+            }
+
+            @Override
+            public void deleteWords(int words) {
+                mutateIfValid(() -> super.deleteWords(words));
+            }
+
+            @Override
+            public void deleteChars(int characters) {
+                mutateIfValid(() -> super.deleteChars(characters));
+            }
+
+            @Override
+            public void deleteCharsToPos(int position) {
+                mutateIfValid(() -> super.deleteCharsToPos(position));
+            }
+        };
         if (responder != null) eb.setResponder(responder);
-        if (filter != null) eb.setFilter(filter);
         eb.addFormatter((text, position) -> formatter == null ? null : formatter.apply(text, position));
         eb.setValue(initialValue);
         eb.setBordered(true);
@@ -60,7 +94,6 @@ public class Input extends AbstractVanillaComponent<EditBox, Input> {
 
     public Input setFilter(Predicate<String> filter) {
         this.filter = filter;
-        if (vanillaComponent != null) vanillaComponent.setFilter(filter);
         return this;
     }
 

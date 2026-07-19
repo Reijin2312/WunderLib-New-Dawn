@@ -6,7 +6,7 @@ import de.ambertation.wunderlib.ui.layout.values.Value;
 
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -142,27 +142,27 @@ public abstract class LayoutScreen extends Screen {
         return cols;
     }
 
-    public void renderBackgroundLayer(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+    public void renderBackgroundLayer(GuiGraphicsExtractor GuiGraphicsExtractor, int mouseX, int mouseY, float delta) {
 
     }
 
 
     @Override
-    public void render(GuiGraphics guiGraphics, int i, int j, float f) {
-        renderBackgroundLayer(guiGraphics, i, j, f);
-        super.render(guiGraphics, i, j, f);
+    public void extractRenderState(GuiGraphicsExtractor GuiGraphicsExtractor, int i, int j, float f) {
+        renderBackgroundLayer(GuiGraphicsExtractor, i, j, f);
+        super.extractRenderState(GuiGraphicsExtractor, i, j, f);
 
-//        guiGraphics.drawString(font, "HelloHello", 10, 10, ColorHelper.WHITE);
-//        guiGraphics.drawManaged(() -> {
-//            TooltipRenderUtil.renderTooltipBackground(guiGraphics, 0, 0, 20, 100, 400);
+//        GuiGraphicsExtractor.drawString(font, "HelloHello", 10, 10, ColorHelper.WHITE);
+//        GuiGraphicsExtractor.drawManaged(() -> {
+//            TooltipRenderUtil.renderTooltipBackground(GuiGraphicsExtractor, 0, 0, 20, 100, 400);
 //
 //        });
-//        guiGraphics.pose().pushPose();
-//        guiGraphics.pose().translate(0, 0, 400);
-//        guiGraphics.fill(20, 0, 40, 100, ColorHelper.BLUE);
-//        guiGraphics.drawString(font, "WorldWorld", 10, 30, ColorHelper.WHITE);
-//        guiGraphics.pose().popPose();
-////        guiGraphics.fill(0, 0, 20, 100, ColorHelper.RED);
+//        GuiGraphicsExtractor.pose().pushPose();
+//        GuiGraphicsExtractor.pose().translate(0, 0, 400);
+//        GuiGraphicsExtractor.fill(20, 0, 40, 100, ColorHelper.BLUE);
+//        GuiGraphicsExtractor.drawString(font, "WorldWorld", 10, 30, ColorHelper.WHITE);
+//        GuiGraphicsExtractor.pose().popPose();
+////        GuiGraphicsExtractor.fill(0, 0, 20, 100, ColorHelper.RED);
 
     }
 

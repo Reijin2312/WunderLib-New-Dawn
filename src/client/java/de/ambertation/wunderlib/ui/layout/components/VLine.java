@@ -6,7 +6,7 @@ import de.ambertation.wunderlib.ui.layout.values.Alignment;
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 
 public class VLine extends CustomRenderComponent {
@@ -25,7 +25,7 @@ public class VLine extends CustomRenderComponent {
 
     @Override
     protected void customRender(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             int x,
             int y,
             float deltaTicks,
@@ -35,7 +35,7 @@ public class VLine extends CustomRenderComponent {
         int left = bounds.height - getContentHeight();
         if (hAlign == Alignment.CENTER) left /= 2;
         else if (hAlign == Alignment.MIN) left = 0;
-        RenderHelper.vLine(guiGraphics, left, 0, bounds.height, color);
+        RenderHelper.vLine(GuiGraphicsExtractor, left, 0, bounds.height, color);
     }
 
     @Override

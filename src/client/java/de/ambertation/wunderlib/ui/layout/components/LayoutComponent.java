@@ -5,7 +5,7 @@ import de.ambertation.wunderlib.ui.layout.values.Alignment;
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 
 
@@ -81,16 +81,16 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
     }
 
     /**
-     * Set clipping rectangle using the new GuiGraphics scissor system
+     * Set clipping rectangle using the new GuiGraphicsExtractor scissor system
      */
-    protected final void setClippingRect(GuiGraphics guiGraphics, Rectangle renderBounds, Rectangle clippingRect) {
+    protected final void setClippingRect(GuiGraphicsExtractor GuiGraphicsExtractor, Rectangle renderBounds, Rectangle clippingRect) {
 
         if (clippingRect == null) {
-            guiGraphics.disableScissor();
+            GuiGraphicsExtractor.disableScissor();
             return;
         }
 
-//        guiGraphics.renderOutline(
+//        GuiGraphicsExtractor.renderOutline(
 //                0,
 //                0,
 //                renderBounds.width,
@@ -98,10 +98,10 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
 //                0xFF00FF00
 //        );
 
-        // GuiGraphics#enableScissor transforms coordinates by the current pose.
+        // GuiGraphicsExtractor#enableScissor transforms coordinates by the current pose.
         // Convert absolute clip bounds into local coordinates first to avoid double-translation.
         Rectangle localClip = clippingRect.movedBy(-renderBounds.left, -renderBounds.top);
-        guiGraphics.enableScissor(
+        GuiGraphicsExtractor.enableScissor(
                 localClip.left,
                 localClip.top,
                 localClip.right(),
@@ -110,7 +110,7 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
     }
 
     public void render(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             int mouseX,
             int mouseY,
             float deltaTicks,
@@ -122,20 +122,20 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
 
         // The new Matrix System has a max stack depth of 15,
         // We need to use it sparingly!
-        //guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate(relativeBounds.left, relativeBounds.top);
+        //GuiGraphicsExtractor.pose().pushMatrix();
+        GuiGraphicsExtractor.pose().translate(relativeBounds.left, relativeBounds.top);
 
         //if (r.overlaps(clip))
         {
-            renderInBounds(guiGraphics, mouseX - relativeBounds.left, mouseY - relativeBounds.top, deltaTicks, r, clip);
+            renderInBounds(GuiGraphicsExtractor, mouseX - relativeBounds.left, mouseY - relativeBounds.top, deltaTicks, r, clip);
         }
 
-        guiGraphics.pose().translate(-relativeBounds.left, -relativeBounds.top);
-        //guiGraphics.pose().popMatrix();
+        GuiGraphicsExtractor.pose().translate(-relativeBounds.left, -relativeBounds.top);
+        //GuiGraphicsExtractor.pose().popMatrix();
     }
 
     protected void renderInBounds(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             int mouseX,
             int mouseY,
             float deltaTicks,
@@ -143,9 +143,9 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
             Rectangle clipRect
     ) {
         if (renderer != null) {
-            setClippingRect(guiGraphics, renderBounds, clipRect);
-            renderer.renderInBounds(guiGraphics, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
-            setClippingRect(guiGraphics, renderBounds, null);
+            setClippingRect(GuiGraphicsExtractor, renderBounds, clipRect);
+            renderer.renderInBounds(GuiGraphicsExtractor, mouseX, mouseY, deltaTicks, renderBounds, clipRect);
+            setClippingRect(GuiGraphicsExtractor, renderBounds, null);
         }
     }
 

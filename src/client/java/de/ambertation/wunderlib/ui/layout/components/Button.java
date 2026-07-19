@@ -3,19 +3,19 @@ package de.ambertation.wunderlib.ui.layout.components;
 import de.ambertation.wunderlib.ui.layout.components.render.ButtonRenderer;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 
 
 public class Button extends AbstractVanillaComponent<net.minecraft.client.gui.components.Button, Button> {
-    public static final OnTooltip NO_TOOLTIP = (button, guiGraphics, i, j) -> {
+    public static final OnTooltip NO_TOOLTIP = (button, GuiGraphicsExtractor, i, j) -> {
     };
     public static final OnPress NO_ACTION = (button) -> {
     };
 
     public interface OnTooltip {
-        void onTooltip(Button button, GuiGraphics guiGraphics, int mouseX, int mouseY);
+        void onTooltip(Button button, GuiGraphicsExtractor GuiGraphicsExtractor, int mouseX, int mouseY);
     }
 
     public interface OnPress {

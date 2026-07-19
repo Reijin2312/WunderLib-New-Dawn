@@ -2,12 +2,12 @@ package de.ambertation.wunderlib.ui.layout.components.render;
 
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 
 public interface ComponentRenderer {
     void renderInBounds(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             int mouseX,
             int mouseY,
             float deltaTicks,

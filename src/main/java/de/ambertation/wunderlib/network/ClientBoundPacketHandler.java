@@ -35,7 +35,7 @@ public class ClientBoundPacketHandler<T extends ClientBoundNetworkPayload<T>> ex
     public static <T extends ClientBoundNetworkPayload<T>> void register(
             ClientBoundPacketHandler<T> packetHandler
     ) {
-        PayloadTypeRegistry.playS2C().register(packetHandler.CHANNEL, packetHandler.STREAM_CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(packetHandler.CHANNEL, packetHandler.STREAM_CODEC);
 
         if (sendToClientAdapter != null) {
             sendToClientAdapter.setupConnectionHandler(packetHandler);

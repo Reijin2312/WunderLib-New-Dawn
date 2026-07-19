@@ -29,7 +29,7 @@ public class ServerBoundPacketHandler<T extends ServerBoundNetworkPayload<T>> ex
     public static <T extends ServerBoundNetworkPayload<T>> void register(
             ServerBoundPacketHandler<T> packetHandler
     ) {
-        PayloadTypeRegistry.playC2S().register(packetHandler.CHANNEL, packetHandler.STREAM_CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(packetHandler.CHANNEL, packetHandler.STREAM_CODEC);
 
         ServerPlayConnectionEvents.INIT.register((handler, server) -> {
             ServerPlayNetworking.registerReceiver(

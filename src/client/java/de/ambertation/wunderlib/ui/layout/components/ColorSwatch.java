@@ -5,7 +5,7 @@ import de.ambertation.wunderlib.ui.layout.components.render.RenderHelper;
 import de.ambertation.wunderlib.ui.layout.values.Rectangle;
 import de.ambertation.wunderlib.ui.layout.values.Value;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 
 public class ColorSwatch extends CustomRenderComponent<ColorSwatch> {
@@ -20,7 +20,7 @@ public class ColorSwatch extends CustomRenderComponent<ColorSwatch> {
 
     @Override
     protected void customRender(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             int x,
             int y,
             float deltaTicks,
@@ -28,8 +28,8 @@ public class ColorSwatch extends CustomRenderComponent<ColorSwatch> {
             Rectangle clipRect
     ) {
         int o = offsetInner ? 2 : 1;
-        RenderHelper.outline(guiGraphics, 0, 0, bounds.width, bounds.height, borderColor);
-        guiGraphics.fill(o, o, bounds.width - o, bounds.height - o, color);
+        RenderHelper.outline(GuiGraphicsExtractor, 0, 0, bounds.width, bounds.height, borderColor);
+        GuiGraphicsExtractor.fill(o, o, bounds.width - o, bounds.height - o, color);
     }
 
     public int getColor() {

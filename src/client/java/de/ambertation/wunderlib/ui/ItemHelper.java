@@ -20,13 +20,13 @@ import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.font.TextRenderable;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.GlyphRenderState;
-import net.minecraft.client.gui.render.state.GuiElementRenderState;
-import net.minecraft.client.gui.render.state.GuiRenderState;
-import net.minecraft.client.renderer.CachedOrthoProjectionMatrixBuffer;
+import net.minecraft.client.renderer.state.gui.GlyphRenderState;
+import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
+import net.minecraft.client.renderer.state.gui.GuiRenderState;
+import net.minecraft.client.renderer.ProjectionMatrixBuffer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.item.TrackingItemStackRenderState;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -46,8 +46,8 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public class ItemHelper {
-    private static @Nullable CachedOrthoProjectionMatrixBuffer ITEM_PROJECTION;
-    private static @Nullable CachedOrthoProjectionMatrixBuffer GUI_PROJECTION;
+    private static @Nullable ProjectionMatrixBuffer ITEM_PROJECTION;
+    private static @Nullable ProjectionMatrixBuffer GUI_PROJECTION;
 
     private ItemHelper() {
     }
@@ -140,7 +140,10 @@ public class ItemHelper {
             RenderSystem.outputColorTextureOverride = framebuffer.getColorTextureView();
             RenderSystem.outputDepthTextureOverride = framebuffer.getDepthTextureView();
 
-            RenderSystem.setProjectionMatrix(itemProjectionBuffer().getBuffer(framebuffer.width, framebuffer.height), ProjectionType.ORTHOGRAPHIC);
+            RenderSystem.setProjectionMatrix(
+                    itemProjectionBuffer().getBuffer(createOrthoProjection(framebuffer.width, framebuffer.height, -1000.0F, 1000.0F, true)),
+                    ProjectionType.ORTHOGRAPHIC
+            );
 
             TrackingItemStackRenderState renderState = new TrackingItemStackRenderState();
             minecraft.getItemModelResolver().updateForTopItem(renderState, stack, ItemDisplayContext.GUI, minecraft.level, null, 0);
@@ -203,7 +206,7 @@ public class ItemHelper {
      * Based on the renderSlot method from Gui class
      */
     public static void renderToExistingContext(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             ItemStack stack,
             @Nullable String overlayText,
             float scale,
@@ -213,21 +216,21 @@ public class ItemHelper {
             return;
         }
 
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate((float) x, (float) y);
-        guiGraphics.pose().scale(scale, scale);
+        GuiGraphicsExtractor.pose().pushMatrix();
+        GuiGraphicsExtractor.pose().translate((float) x, (float) y);
+        GuiGraphicsExtractor.pose().scale(scale, scale);
 
         // Render the item using the same method as the hotbar
-        guiGraphics.renderFakeItem(stack, 0, 0);
+        GuiGraphicsExtractor.fakeItem(stack, 0, 0);
 
         // Render decorations (count, durability bar, cooldown overlay)
         String text = overlayText;
         if (stack.getCount() > 1 && text == null) text = String.valueOf(stack.getCount());
         if (text != null) {
-            guiGraphics.renderItemDecorations(Minecraft.getInstance().font, stack, 0, 0, text);
+            GuiGraphicsExtractor.itemDecorations(Minecraft.getInstance().font, stack, 0, 0, text);
         }
 
-        guiGraphics.pose().popMatrix();
+        GuiGraphicsExtractor.pose().popMatrix();
     }
 
     /**
@@ -235,7 +238,7 @@ public class ItemHelper {
      * Useful for creating item grids or inventories
      */
     public static void renderItemGrid(
-            GuiGraphics guiGraphics,
+            GuiGraphicsExtractor GuiGraphicsExtractor,
             ItemStack[] items,
             int startX, int startY,
             int itemSize, int spacing,
@@ -249,7 +252,7 @@ public class ItemHelper {
                 int y = startY + row * (itemSize + spacing);
 
                 float scale = itemSize / 16.0f; // 16 is the standard item size
-                renderToExistingContext(guiGraphics, items[i], null, scale, x, y);
+                renderToExistingContext(GuiGraphicsExtractor, items[i], null, scale, x, y);
             }
         }
     }
@@ -257,8 +260,8 @@ public class ItemHelper {
     /**
      * Utility method to render a single item at standard size (16x16)
      */
-    public static void renderStandardItem(GuiGraphics guiGraphics, ItemStack stack, int x, int y) {
-        renderToExistingContext(guiGraphics, stack, null, 1.0f, x, y);
+    public static void renderStandardItem(GuiGraphicsExtractor GuiGraphicsExtractor, ItemStack stack, int x, int y) {
+        renderToExistingContext(GuiGraphicsExtractor, stack, null, 1.0f, x, y);
     }
 
     private static void clearRenderTarget(RenderTarget framebuffer) {
@@ -266,16 +269,16 @@ public class ItemHelper {
         encoder.clearColorAndDepthTextures(framebuffer.getColorTexture(), 0, framebuffer.getDepthTexture(), 1.0);
     }
 
-    private static CachedOrthoProjectionMatrixBuffer itemProjectionBuffer() {
+    private static ProjectionMatrixBuffer itemProjectionBuffer() {
         if (ITEM_PROJECTION == null) {
-            ITEM_PROJECTION = new CachedOrthoProjectionMatrixBuffer("wunderlib_items", -1000.0F, 1000.0F, true);
+            ITEM_PROJECTION = new ProjectionMatrixBuffer("wunderlib_items");
         }
         return ITEM_PROJECTION;
     }
 
-    private static CachedOrthoProjectionMatrixBuffer guiProjectionBuffer() {
+    private static ProjectionMatrixBuffer guiProjectionBuffer() {
         if (GUI_PROJECTION == null) {
-            GUI_PROJECTION = new CachedOrthoProjectionMatrixBuffer("wunderlib_gui", 1000.0F, 11000.0F, true);
+            GUI_PROJECTION = new ProjectionMatrixBuffer("wunderlib_gui");
         }
         return GUI_PROJECTION;
     }
@@ -284,30 +287,33 @@ public class ItemHelper {
         Minecraft minecraft = Minecraft.getInstance();
 
         GuiRenderState guiRenderState = new GuiRenderState();
-        GuiGraphics guiGraphics = new GuiGraphics(minecraft, guiRenderState, 0, 0);
+        GuiGraphicsExtractor GuiGraphicsExtractor = new GuiGraphicsExtractor(minecraft, guiRenderState, 0, 0);
 
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().scale(scale, scale);
+        GuiGraphicsExtractor.pose().pushMatrix();
+        GuiGraphicsExtractor.pose().scale(scale, scale);
 
         String text = overlayText;
         if (stack.getCount() > 1 && text == null) text = String.valueOf(stack.getCount());
-        guiGraphics.renderItemDecorations(minecraft.font, stack, 0, 0, text);
+        GuiGraphicsExtractor.itemDecorations(minecraft.font, stack, 0, 0, text);
 
-        guiGraphics.pose().popMatrix();
+        GuiGraphicsExtractor.pose().popMatrix();
 
         guiRenderState.forEachText(textState -> textState.ensurePrepared().visit(new Font.GlyphVisitor() {
             @Override
             public void acceptGlyph(TextRenderable.Styled renderable) {
-                guiRenderState.submitGlyphToCurrentLayer(new GlyphRenderState(textState.pose, renderable, textState.scissor));
+                guiRenderState.addGlyphToCurrentLayer(new GlyphRenderState(textState.pose, renderable, textState.scissor));
             }
 
             @Override
             public void acceptEffect(TextRenderable renderable) {
-                guiRenderState.submitGlyphToCurrentLayer(new GlyphRenderState(textState.pose, renderable, textState.scissor));
+                guiRenderState.addGlyphToCurrentLayer(new GlyphRenderState(textState.pose, renderable, textState.scissor));
             }
         }));
 
-        RenderSystem.setProjectionMatrix(guiProjectionBuffer().getBuffer(framebuffer.width, framebuffer.height), ProjectionType.ORTHOGRAPHIC);
+        RenderSystem.setProjectionMatrix(
+                guiProjectionBuffer().getBuffer(createOrthoProjection(framebuffer.width, framebuffer.height, 1000.0F, 11000.0F, true)),
+                ProjectionType.ORTHOGRAPHIC
+        );
         GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms()
                 .writeTransform(new Matrix4f().setTranslation(0.0F, 0.0F, -11000.0F), new Vector4f(1.0F, 1.0F, 1.0F, 1.0F), new Vector3f(), new Matrix4f());
 
@@ -381,5 +387,9 @@ public class ItemHelper {
             mesh.close();
             byteBufferBuilder.close();
         }
+    }
+
+    private static Matrix4f createOrthoProjection(float width, float height, float zNear, float zFar, boolean invertY) {
+        return new Matrix4f().setOrtho(0.0F, width, invertY ? height : 0.0F, invertY ? 0.0F : height, zNear, zFar);
     }
 }

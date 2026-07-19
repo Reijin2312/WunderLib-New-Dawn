@@ -319,7 +319,7 @@ public abstract class SDF {
     public static final ResourceKey<Registry<MapCodec<? extends SDF>>> SDF_REGISTRY_KEY
             = ResourceKey.createRegistryKey(WunderLib.ID("sdf"));
     public static final MappedRegistry<MapCodec<? extends SDF>> SDF_REGISTRY = FabricRegistryBuilder
-            .createSimple(SDF_REGISTRY_KEY)
+            .create(SDF_REGISTRY_KEY)
             .attribute(RegistryAttribute.SYNCED)
             .buildAndRegister();
 
