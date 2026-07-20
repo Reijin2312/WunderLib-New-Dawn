@@ -111,3 +111,16 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+def modrinthModsDir = file(findProperty("modrinth_mods_dir") ?: "C:/Users/Redmi/AppData/Roaming/ModrinthApp/profiles/Fabric 26.1.2/mods")
+
+tasks.register("copyModrinthJars", Copy) {
+    dependsOn(tasks.named("jar"))
+    from(tasks.named("jar").flatMap { it.archiveFile })
+    rename { fileName -> fileName.endsWith(".jar") ? "${fileName[0..-5]}-fabric.jar" : fileName }
+    into(modrinthModsDir)
+}
+
+tasks.named("build") {
+    finalizedBy("copyModrinthJars")
+}
