@@ -65,4 +65,3 @@ public class VLine extends CustomRenderComponent {
         focused = bl;
     }
 }
-

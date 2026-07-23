@@ -287,4 +287,3 @@ public class Container extends LayoutComponent<Container.ContainerRenderer, Cont
         return c;
     }
 }
-

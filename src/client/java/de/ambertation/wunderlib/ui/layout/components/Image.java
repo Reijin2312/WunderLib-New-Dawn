@@ -106,4 +106,3 @@ public class Image extends CustomRenderComponent {
         focused = bl;
     }
 }
-

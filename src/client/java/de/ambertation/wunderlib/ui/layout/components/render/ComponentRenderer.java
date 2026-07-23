@@ -15,4 +15,3 @@ public interface ComponentRenderer {
             Rectangle clipRect
     );
 }
-

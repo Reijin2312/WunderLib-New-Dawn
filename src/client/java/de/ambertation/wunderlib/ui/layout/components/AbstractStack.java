@@ -312,4 +312,3 @@ public abstract class AbstractStack<R extends ComponentRenderer, T extends Abstr
         return i;
     }
 }
-

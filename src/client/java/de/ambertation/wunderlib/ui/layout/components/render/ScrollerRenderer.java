@@ -45,4 +45,3 @@ public interface ScrollerRenderer {
             float zIndex
     );
 }
-

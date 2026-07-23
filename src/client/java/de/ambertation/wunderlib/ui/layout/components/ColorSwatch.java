@@ -81,4 +81,3 @@ public class ColorSwatch extends CustomRenderComponent<ColorSwatch> {
         focused = bl;
     }
 }
-

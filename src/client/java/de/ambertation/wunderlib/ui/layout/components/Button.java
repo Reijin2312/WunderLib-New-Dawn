@@ -75,4 +75,3 @@ public class Button extends AbstractVanillaComponent<net.minecraft.client.gui.co
         focused = bl;
     }
 }
-

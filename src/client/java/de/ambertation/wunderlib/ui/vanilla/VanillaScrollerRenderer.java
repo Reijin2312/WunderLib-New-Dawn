@@ -23,4 +23,3 @@ public class VanillaScrollerRenderer implements ScrollerRenderer {
         GuiGraphicsExtractor.fill(p.left, p.top, p.right() - 1, p.bottom() - 1, 0xFFC0C0C0);
     }
 }
-

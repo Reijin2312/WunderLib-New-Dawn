@@ -60,4 +60,3 @@ public class HLine extends CustomRenderComponent {
         focused = bl;
     }
 }
-

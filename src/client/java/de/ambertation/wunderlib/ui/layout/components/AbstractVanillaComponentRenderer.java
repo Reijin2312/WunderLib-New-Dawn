@@ -38,4 +38,3 @@ public class AbstractVanillaComponentRenderer<C extends AbstractWidget, V extend
         }
     }
 }
-

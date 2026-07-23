@@ -43,4 +43,3 @@ public abstract class CustomRenderComponent<C extends CustomRenderComponent<C>> 
         }
     }
 }
-

@@ -330,4 +330,3 @@ public class VerticalScroll<RS extends ScrollerRenderer> extends LayoutComponent
         return relativeBounds.contains(x, y);
     }
 }
-

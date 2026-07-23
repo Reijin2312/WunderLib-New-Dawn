@@ -90,4 +90,3 @@ public class ButtonRenderer extends AbstractVanillaComponentRenderer<net.minecra
         GuiGraphicsExtractor.fill(x, y, x + 1, y + 1, ColorHelper.WHITE);
     }
 }
-

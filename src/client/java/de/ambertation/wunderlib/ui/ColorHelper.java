@@ -1,25 +1,25 @@
 package de.ambertation.wunderlib.ui;
 
 import de.ambertation.wunderlib.utils.ColorUtilARGB32;
-import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextColor;
 
 public class ColorHelper {
-    public static final int BLACK = ChatFormatting.BLACK.getColor() | 0xFF000000;
-    public static final int DARK_BLUE = ChatFormatting.DARK_BLUE.getColor() | 0xFF000000;
-    public static final int DARK_GREEN = ChatFormatting.DARK_GREEN.getColor() | 0xFF000000;
-    public static final int DARK_AQUA = ChatFormatting.DARK_AQUA.getColor() | 0xFF000000;
-    public static final int DARK_RED = ChatFormatting.DARK_RED.getColor() | 0xFF000000;
-    public static final int DARK_PURPLE = ChatFormatting.DARK_PURPLE.getColor() | 0xFF000000;
-    public static final int GOLD = ChatFormatting.GOLD.getColor() | 0xFF000000;
-    public static final int GRAY = ChatFormatting.GRAY.getColor() | 0xFF000000;
-    public static final int DARK_GRAY = ChatFormatting.DARK_GRAY.getColor() | 0xFF000000;
-    public static final int BLUE = ChatFormatting.BLUE.getColor() | 0xFF000000;
-    public static final int GREEN = ChatFormatting.GREEN.getColor() | 0xFF000000;
-    public static final int AQUA = ChatFormatting.AQUA.getColor() | 0xFF000000;
-    public static final int RED = ChatFormatting.RED.getColor() | 0xFF000000;
-    public static final int LIGHT_PURPLE = ChatFormatting.LIGHT_PURPLE.getColor() | 0xFF000000;
-    public static final int YELLOW = ChatFormatting.YELLOW.getColor() | 0xFF000000;
-    public static final int WHITE = ChatFormatting.WHITE.getColor() | 0xFF000000;
+    public static final int BLACK = TextColor.BLACK.getValue() | 0xFF000000;
+    public static final int DARK_BLUE = TextColor.DARK_BLUE.getValue() | 0xFF000000;
+    public static final int DARK_GREEN = TextColor.DARK_GREEN.getValue() | 0xFF000000;
+    public static final int DARK_AQUA = TextColor.DARK_AQUA.getValue() | 0xFF000000;
+    public static final int DARK_RED = TextColor.DARK_RED.getValue() | 0xFF000000;
+    public static final int DARK_PURPLE = TextColor.DARK_PURPLE.getValue() | 0xFF000000;
+    public static final int GOLD = TextColor.GOLD.getValue() | 0xFF000000;
+    public static final int GRAY = TextColor.GRAY.getValue() | 0xFF000000;
+    public static final int DARK_GRAY = TextColor.DARK_GRAY.getValue() | 0xFF000000;
+    public static final int BLUE = TextColor.BLUE.getValue() | 0xFF000000;
+    public static final int GREEN = TextColor.GREEN.getValue() | 0xFF000000;
+    public static final int AQUA = TextColor.AQUA.getValue() | 0xFF000000;
+    public static final int RED = TextColor.RED.getValue() | 0xFF000000;
+    public static final int LIGHT_PURPLE = TextColor.LIGHT_PURPLE.getValue() | 0xFF000000;
+    public static final int YELLOW = TextColor.YELLOW.getValue() | 0xFF000000;
+    public static final int WHITE = TextColor.WHITE.getValue() | 0xFF000000;
     public static final int DEFAULT_TEXT = WHITE;
 
     public static final int SCREEN_BACKGROUND = 0xFF343444;

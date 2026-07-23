@@ -223,4 +223,3 @@ public abstract class LayoutComponent<R extends ComponentRenderer, L extends Lay
             parentPanel.calculateLayout();
     }
 }
-

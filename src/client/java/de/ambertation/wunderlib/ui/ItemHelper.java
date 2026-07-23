@@ -2,6 +2,8 @@ package de.ambertation.wunderlib.ui;
 
 import de.ambertation.wunderlib.WunderLib;
 
+import com.mojang.blaze3d.GpuFormat;
+import com.mojang.blaze3d.IndexType;
 import com.mojang.blaze3d.ProjectionType;
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
@@ -15,7 +17,6 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
@@ -27,6 +28,7 @@ import net.minecraft.client.renderer.state.gui.GlyphRenderState;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.client.renderer.state.gui.GuiRenderState;
 import net.minecraft.client.renderer.ProjectionMatrixBuffer;
+import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.item.TrackingItemStackRenderState;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -113,7 +115,7 @@ public class ItemHelper {
         RenderSystem.assertOnRenderThread();
 
         // Create a render target for our item
-        RenderTarget framebuffer = new TextureTarget("wunderlib_item", size, size, true);
+        RenderTarget framebuffer = new TextureTarget("wunderlib_item", size, size, true, GpuFormat.RGBA8_UNORM);
 
         try {
             clearRenderTarget(framebuffer);
@@ -149,9 +151,9 @@ public class ItemHelper {
             minecraft.getItemModelResolver().updateForTopItem(renderState, stack, ItemDisplayContext.GUI, minecraft.level, null, 0);
 
             if (renderState.usesBlockLight()) {
-                minecraft.gameRenderer.getLighting().setupFor(Lighting.Entry.ITEMS_3D);
+                minecraft.gameRenderer.lighting().setupFor(Lighting.Entry.ITEMS_3D);
             } else {
-                minecraft.gameRenderer.getLighting().setupFor(Lighting.Entry.ITEMS_FLAT);
+                minecraft.gameRenderer.lighting().setupFor(Lighting.Entry.ITEMS_FLAT);
             }
 
             PoseStack poseStack = new PoseStack();
@@ -161,9 +163,9 @@ public class ItemHelper {
             poseStack.scale(size, -size, size);
 
             RenderSystem.enableScissorForRenderTypeDraws(0, framebuffer.height - (int) size, (int) size, (int) size);
-            renderState.submit(poseStack, minecraft.gameRenderer.getSubmitNodeStorage(), 15728880, OverlayTexture.NO_OVERLAY, 0);
-            minecraft.gameRenderer.getFeatureRenderDispatcher().renderAllFeatures();
-            minecraft.renderBuffers().bufferSource().endBatch();
+            SubmitNodeStorage submitNodeStorage = new SubmitNodeStorage();
+            renderState.submit(poseStack, submitNodeStorage, 15728880, OverlayTexture.NO_OVERLAY, 0);
+            minecraft.gameRenderer.featureRenderDispatcher().renderAllFeatures(submitNodeStorage);
             RenderSystem.disableScissorForRenderTypeDraws();
             poseStack.popPose();
 
@@ -266,7 +268,7 @@ public class ItemHelper {
 
     private static void clearRenderTarget(RenderTarget framebuffer) {
         var encoder = RenderSystem.getDevice().createCommandEncoder();
-        encoder.clearColorAndDepthTextures(framebuffer.getColorTexture(), 0, framebuffer.getDepthTexture(), 1.0);
+        encoder.clearColorAndDepthTextures(framebuffer.getColorTexture(), new Vector4f(), framebuffer.getDepthTexture(), 0.0);
     }
 
     private static ProjectionMatrixBuffer itemProjectionBuffer() {
@@ -328,7 +330,7 @@ public class ItemHelper {
         TextureSetup textureSetup = element.textureSetup();
 
         ByteBufferBuilder byteBufferBuilder = new ByteBufferBuilder(256);
-        BufferBuilder bufferBuilder = new BufferBuilder(byteBufferBuilder, pipeline.getVertexFormatMode(), pipeline.getVertexFormat());
+        BufferBuilder bufferBuilder = new BufferBuilder(byteBufferBuilder, pipeline.getPrimitiveTopology(), pipeline.getVertexFormatBinding(0));
         element.buildVertices(bufferBuilder);
         MeshData mesh = bufferBuilder.build();
         if (mesh == null) {
@@ -341,7 +343,7 @@ public class ItemHelper {
                 .createRenderPass(
                         () -> "WunderLib GUI element",
                         framebuffer.getColorTextureView(),
-                        java.util.OptionalInt.empty(),
+                        java.util.Optional.empty(),
                         framebuffer.getDepthTextureView(),
                         java.util.OptionalDouble.empty()
                 )) {
@@ -368,21 +370,30 @@ public class ItemHelper {
                 renderPass.disableScissor();
             }
 
-            GpuBuffer vertexBuffer = pipeline.getVertexFormat().uploadImmediateVertexBuffer(mesh.vertexBuffer());
+            GpuBuffer vertexBuffer = RenderSystem.getDevice().createBuffer(() -> "WunderLib GUI vertices", GpuBuffer.USAGE_VERTEX, mesh.vertexBuffer());
             GpuBuffer indexBuffer;
-            VertexFormat.IndexType indexType;
+            IndexType indexType;
+            boolean ownsIndexBuffer = false;
             if (mesh.indexBuffer() == null) {
-                RenderSystem.AutoStorageIndexBuffer autoIndex = RenderSystem.getSequentialBuffer(mesh.drawState().mode());
+                RenderSystem.AutoStorageIndexBuffer autoIndex = RenderSystem.getSequentialBuffer(mesh.drawState().primitiveTopology());
                 indexBuffer = autoIndex.getBuffer(mesh.drawState().indexCount());
                 indexType = autoIndex.type();
             } else {
-                indexBuffer = pipeline.getVertexFormat().uploadImmediateIndexBuffer(mesh.indexBuffer());
+                indexBuffer = RenderSystem.getDevice().createBuffer(() -> "WunderLib GUI indices", GpuBuffer.USAGE_INDEX, mesh.indexBuffer());
                 indexType = mesh.drawState().indexType();
+                ownsIndexBuffer = true;
             }
 
-            renderPass.setVertexBuffer(0, vertexBuffer);
-            renderPass.setIndexBuffer(indexBuffer, indexType);
-            renderPass.drawIndexed(0, 0, mesh.drawState().indexCount(), 1);
+            try {
+                renderPass.setVertexBuffer(0, vertexBuffer.slice());
+                renderPass.setIndexBuffer(indexBuffer, indexType);
+                renderPass.drawIndexed(mesh.drawState().indexCount(), 1, 0, 0, 0);
+            } finally {
+                vertexBuffer.close();
+                if (ownsIndexBuffer) {
+                    indexBuffer.close();
+                }
+            }
         } finally {
             mesh.close();
             byteBufferBuilder.close();
@@ -393,4 +404,3 @@ public class ItemHelper {
         return new Matrix4f().setOrtho(0.0F, width, invertY ? height : 0.0F, invertY ? 0.0F : height, zNear, zFar);
     }
 }
-

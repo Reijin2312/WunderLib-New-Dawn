@@ -18,4 +18,3 @@ public class NullRenderer implements ComponentRenderer {
 
     }
 }
-

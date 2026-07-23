@@ -120,4 +120,3 @@ public class RenderHelper {
         renderImage(GuiGraphicsExtractor, left, top, width, height, location, resourceSize, uvRect, alpha);
     }
 }
-

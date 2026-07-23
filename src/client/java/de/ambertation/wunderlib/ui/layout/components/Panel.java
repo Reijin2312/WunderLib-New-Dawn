@@ -181,4 +181,3 @@ public class Panel implements ComponentWithBounds, RelativeContainerEventHandler
         return false;
     }
 }
-
