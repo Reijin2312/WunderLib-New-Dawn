@@ -12,11 +12,11 @@
       "projectName": "WunderLib",
       "mainClass": "net.neoforged.devlaunch.Main",
       "args": [
-        "@C:\\Users\\Redmi\\Desktop\\BetterMods\\WunderLib\\build\\moddev\\clientRunProgramArgs.txt"
+        "@C:\\Projects\\BetterMods\\WunderLib\\build\\moddev\\clientRunProgramArgs.txt"
       ],
       "vmArgs": [
-        "@C:\\Users\\Redmi\\Desktop\\BetterMods\\WunderLib\\build\\moddev\\clientRunVmArgs.txt",
-        "-Dfml.modFolders\u003dwunderlib%%C:\\Users\\Redmi\\Desktop\\BetterMods\\WunderLib\\bin\\main"
+        "@C:\\Projects\\BetterMods\\WunderLib\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dwunderlib%%C:\\Projects\\BetterMods\\WunderLib\\bin\\main"
       ],
       "cwd": "${workspaceFolder}\\run",
       "env": {},
@@ -34,11 +34,11 @@
       "projectName": "WunderLib",
       "mainClass": "net.neoforged.devlaunch.Main",
       "args": [
-        "@C:\\Users\\Redmi\\Desktop\\BetterMods\\WunderLib\\build\\moddev\\dataRunProgramArgs.txt"
+        "@C:\\Projects\\BetterMods\\WunderLib\\build\\moddev\\dataRunProgramArgs.txt"
       ],
       "vmArgs": [
-        "@C:\\Users\\Redmi\\Desktop\\BetterMods\\WunderLib\\build\\moddev\\dataRunVmArgs.txt",
-        "-Dfml.modFolders\u003dwunderlib%%C:\\Users\\Redmi\\Desktop\\BetterMods\\WunderLib\\bin\\main"
+        "@C:\\Projects\\BetterMods\\WunderLib\\build\\moddev\\dataRunVmArgs.txt",
+        "-Dfml.modFolders\u003dwunderlib%%C:\\Projects\\BetterMods\\WunderLib\\bin\\main"
       ],
       "cwd": "${workspaceFolder}\\run",
       "env": {},
@@ -56,11 +56,11 @@
       "projectName": "WunderLib",
       "mainClass": "net.neoforged.devlaunch.Main",
       "args": [
-        "@C:\\Users\\Redmi\\Desktop\\BetterMods\\WunderLib\\build\\moddev\\serverRunProgramArgs.txt"
+        "@C:\\Projects\\BetterMods\\WunderLib\\build\\moddev\\serverRunProgramArgs.txt"
       ],
       "vmArgs": [
-        "@C:\\Users\\Redmi\\Desktop\\BetterMods\\WunderLib\\build\\moddev\\serverRunVmArgs.txt",
-        "-Dfml.modFolders\u003dwunderlib%%C:\\Users\\Redmi\\Desktop\\BetterMods\\WunderLib\\bin\\main"
+        "@C:\\Projects\\BetterMods\\WunderLib\\build\\moddev\\serverRunVmArgs.txt",
+        "-Dfml.modFolders\u003dwunderlib%%C:\\Projects\\BetterMods\\WunderLib\\bin\\main"
       ],
       "cwd": "${workspaceFolder}\\run",
       "env": {},
