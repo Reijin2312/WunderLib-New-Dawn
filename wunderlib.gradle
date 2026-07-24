@@ -89,7 +89,6 @@ java {
 }
 
 jar {
-    dependsOn(tasks.matching { it.name == "runClientData" })
     from("src/main/generated")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from("LICENSE") {
