@@ -6,17 +6,17 @@
       "request": "launch",
       "name": "Client",
       "presentation": {
-        "group": "Mod Development - WunderLib-26.1",
+        "group": "Mod Development - WunderLib-26.1-Neoforge",
         "order": 0
       },
-      "projectName": "WunderLib-26.1",
+      "projectName": "WunderLib-26.1-Neoforge",
       "mainClass": "net.neoforged.devlaunch.Main",
       "args": [
-        "@C:\\Projects\\BetterMods\\WunderLib-26.1\\build\\moddev\\clientRunProgramArgs.txt"
+        "@E:\\Projects\\Java\\BetterMods\\WunderLib-26.1-Neoforge\\build\\moddev\\clientRunProgramArgs.txt"
       ],
       "vmArgs": [
-        "@C:\\Projects\\BetterMods\\WunderLib-26.1\\build\\moddev\\clientRunVmArgs.txt",
-        "-Dfml.modFolders\u003dwunderlib%%C:\\Projects\\BetterMods\\WunderLib-26.1\\bin\\main"
+        "@E:\\Projects\\Java\\BetterMods\\WunderLib-26.1-Neoforge\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dwunderlib%%E:\\Projects\\Java\\BetterMods\\WunderLib-26.1-Neoforge\\bin\\main"
       ],
       "cwd": "${workspaceFolder}\\run",
       "env": {},
@@ -28,17 +28,17 @@
       "request": "launch",
       "name": "ClientData",
       "presentation": {
-        "group": "Mod Development - WunderLib-26.1",
+        "group": "Mod Development - WunderLib-26.1-Neoforge",
         "order": 1
       },
-      "projectName": "WunderLib-26.1",
+      "projectName": "WunderLib-26.1-Neoforge",
       "mainClass": "net.neoforged.devlaunch.Main",
       "args": [
-        "@C:\\Projects\\BetterMods\\WunderLib-26.1\\build\\moddev\\clientDataRunProgramArgs.txt"
+        "@E:\\Projects\\Java\\BetterMods\\WunderLib-26.1-Neoforge\\build\\moddev\\clientDataRunProgramArgs.txt"
       ],
       "vmArgs": [
-        "@C:\\Projects\\BetterMods\\WunderLib-26.1\\build\\moddev\\clientDataRunVmArgs.txt",
-        "-Dfml.modFolders\u003dwunderlib%%C:\\Projects\\BetterMods\\WunderLib-26.1\\bin\\main"
+        "@E:\\Projects\\Java\\BetterMods\\WunderLib-26.1-Neoforge\\build\\moddev\\clientDataRunVmArgs.txt",
+        "-Dfml.modFolders\u003dwunderlib%%E:\\Projects\\Java\\BetterMods\\WunderLib-26.1-Neoforge\\bin\\main"
       ],
       "cwd": "${workspaceFolder}\\run",
       "env": {},
@@ -50,17 +50,17 @@
       "request": "launch",
       "name": "Server",
       "presentation": {
-        "group": "Mod Development - WunderLib-26.1",
+        "group": "Mod Development - WunderLib-26.1-Neoforge",
         "order": 2
       },
-      "projectName": "WunderLib-26.1",
+      "projectName": "WunderLib-26.1-Neoforge",
       "mainClass": "net.neoforged.devlaunch.Main",
       "args": [
-        "@C:\\Projects\\BetterMods\\WunderLib-26.1\\build\\moddev\\serverRunProgramArgs.txt"
+        "@E:\\Projects\\Java\\BetterMods\\WunderLib-26.1-Neoforge\\build\\moddev\\serverRunProgramArgs.txt"
       ],
       "vmArgs": [
-        "@C:\\Projects\\BetterMods\\WunderLib-26.1\\build\\moddev\\serverRunVmArgs.txt",
-        "-Dfml.modFolders\u003dwunderlib%%C:\\Projects\\BetterMods\\WunderLib-26.1\\bin\\main"
+        "@E:\\Projects\\Java\\BetterMods\\WunderLib-26.1-Neoforge\\build\\moddev\\serverRunVmArgs.txt",
+        "-Dfml.modFolders\u003dwunderlib%%E:\\Projects\\Java\\BetterMods\\WunderLib-26.1-Neoforge\\bin\\main"
       ],
       "cwd": "${workspaceFolder}\\run",
       "env": {},

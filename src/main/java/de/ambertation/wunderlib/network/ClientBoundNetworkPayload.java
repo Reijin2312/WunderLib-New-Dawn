@@ -1,6 +1,5 @@
 package de.ambertation.wunderlib.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 
 
@@ -13,5 +12,5 @@ public abstract class ClientBoundNetworkPayload<T extends ClientBoundNetworkPayl
 
     protected abstract void processOnClient(PacketSender responseSender);
 
-    protected abstract void processOnGameThread(Minecraft client);
+    protected abstract void processOnGameThread(Object client);
 }
