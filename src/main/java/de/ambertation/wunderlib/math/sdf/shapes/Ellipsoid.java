@@ -9,7 +9,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.KeyDispatchDataCodec;
+import com.mojang.serialization.MapCodec;
 
 //based on https://iquilezles.org/articles/ellipsoids/
 public class Ellipsoid extends BaseShape implements Rotatable {
@@ -22,10 +22,10 @@ public class Ellipsoid extends BaseShape implements Rotatable {
             .apply(instance, Ellipsoid::new)
     );
 
-    public static final KeyDispatchDataCodec<Ellipsoid> CODEC = KeyDispatchDataCodec.of(DIRECT_CODEC);
+    public static final MapCodec<Ellipsoid> CODEC = DIRECT_CODEC;
 
     @Override
-    public KeyDispatchDataCodec<? extends SDF> codec() {
+    public MapCodec<? extends SDF> codec() {
         return CODEC;
     }
 

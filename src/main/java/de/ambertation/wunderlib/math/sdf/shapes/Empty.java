@@ -6,18 +6,18 @@ import de.ambertation.wunderlib.math.Transform;
 import de.ambertation.wunderlib.math.sdf.SDF;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.util.KeyDispatchDataCodec;
+import com.mojang.serialization.MapCodec;
 
 public class Empty extends SDF {
     public static final MapCodec<Empty> DIRECT_CODEC = MapCodec.unit(Empty::new);
-    public static final KeyDispatchDataCodec<Empty> CODEC = KeyDispatchDataCodec.of(DIRECT_CODEC);
+    public static final MapCodec<Empty> CODEC = DIRECT_CODEC;
 
     public Empty() {
         super(0);
     }
 
     @Override
-    public KeyDispatchDataCodec<? extends SDF> codec() {
+    public MapCodec<? extends SDF> codec() {
         return CODEC;
     }
 

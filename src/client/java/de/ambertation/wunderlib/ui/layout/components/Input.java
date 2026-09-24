@@ -38,7 +38,6 @@ public class Input extends AbstractVanillaComponent<EditBox, Input> {
                 component
         );
         if (responder != null) eb.setResponder(responder);
-        if (filter != null) eb.setFilter(filter);
         eb.addFormatter((text, position) -> formatter == null ? null : formatter.apply(text, position));
         eb.setValue(initialValue);
         eb.setBordered(true);
@@ -60,7 +59,6 @@ public class Input extends AbstractVanillaComponent<EditBox, Input> {
 
     public Input setFilter(Predicate<String> filter) {
         this.filter = filter;
-        if (vanillaComponent != null) vanillaComponent.setFilter(filter);
         return this;
     }
 

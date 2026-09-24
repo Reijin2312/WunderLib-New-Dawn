@@ -94,13 +94,14 @@ public abstract class LayoutScreen extends Screen {
     protected abstract LayoutComponent<?, ?> initContent();
 
     protected void openLink(String uri) {
+        java.net.URI link = java.net.URI.create(uri);
         ConfirmLinkScreen cls = new ConfirmLinkScreen(
                 bl -> {
                     if (bl) {
-                        Util.getPlatform().openUri(uri);
+                        com.mojang.blaze3d.Blaze3D.openUri(link);
                     }
                     this.minecraft.gui.setScreen(this);
-                }, uri, true
+                }, link, true
         );
 
         Minecraft.getInstance().gui.setScreen(cls);

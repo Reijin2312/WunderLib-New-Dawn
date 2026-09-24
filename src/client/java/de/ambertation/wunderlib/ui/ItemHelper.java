@@ -2,21 +2,21 @@ package de.ambertation.wunderlib.ui;
 
 import de.ambertation.wunderlib.WunderLib;
 
-import com.mojang.blaze3d.GpuFormat;
-import com.mojang.blaze3d.IndexType;
 import com.mojang.blaze3d.ProjectionType;
-import com.mojang.blaze3d.buffers.GpuBuffer;
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.renderpearl.api.GpuFormat;
+import com.mojang.renderpearl.api.buffers.GpuBuffer;
+import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
+import com.mojang.renderpearl.api.commands.RenderPass;
+import com.mojang.renderpearl.api.pipeline.IndexType;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
@@ -115,7 +115,7 @@ public class ItemHelper {
         RenderSystem.assertOnRenderThread();
 
         // Create a render target for our item
-        RenderTarget framebuffer = new TextureTarget("wunderlib_item", size, size, true, GpuFormat.RGBA8_UNORM);
+        RenderTarget framebuffer = new TextureTarget("wunderlib_item", size, size, GpuFormat.RGBA8_UNORM, GpuFormat.D32_FLOAT);
 
         try {
             clearRenderTarget(framebuffer);
@@ -134,14 +134,9 @@ public class ItemHelper {
         Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
         modelViewStack.pushMatrix();
 
-        var previousColorOverride = RenderSystem.outputColorTextureOverride;
-        var previousDepthOverride = RenderSystem.outputDepthTextureOverride;
         var previousLights = RenderSystem.getShaderLights();
 
         try {
-            RenderSystem.outputColorTextureOverride = framebuffer.getColorTextureView();
-            RenderSystem.outputDepthTextureOverride = framebuffer.getDepthTextureView();
-
             RenderSystem.setProjectionMatrix(
                     itemProjectionBuffer().getBuffer(createOrthoProjection(framebuffer.width, framebuffer.height, -1000.0F, 1000.0F, true)),
                     ProjectionType.ORTHOGRAPHIC
@@ -165,14 +160,24 @@ public class ItemHelper {
             RenderSystem.enableScissorForRenderTypeDraws(0, framebuffer.height - (int) size, (int) size, (int) size);
             SubmitNodeStorage submitNodeStorage = new SubmitNodeStorage();
             renderState.submit(poseStack, submitNodeStorage, 15728880, OverlayTexture.NO_OVERLAY, 0);
-            minecraft.gameRenderer.featureRenderDispatcher().renderAllFeatures(submitNodeStorage);
+            try (
+                    var frame = minecraft.gameRenderer.featureRenderDispatcher().prepareFrame(submitNodeStorage);
+                    RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(
+                            () -> "WunderLib item",
+                            framebuffer.getColorTextureView(),
+                            java.util.Optional.empty(),
+                            framebuffer.getDepthTextureView(),
+                            java.util.OptionalDouble.empty()
+                    )
+            ) {
+                RenderSystem.bindDefaultUniforms(renderPass);
+                net.minecraft.client.renderer.feature.FeatureRenderDispatcher.renderAllFeatures(renderPass, frame);
+            }
             RenderSystem.disableScissorForRenderTypeDraws();
             poseStack.popPose();
 
             renderItemDecorationsToTarget(stack, text, scale, framebuffer);
         } finally {
-            RenderSystem.outputColorTextureOverride = previousColorOverride;
-            RenderSystem.outputDepthTextureOverride = previousDepthOverride;
             if (previousLights != null) {
                 RenderSystem.setShaderLights(previousLights);
             }
@@ -317,7 +322,7 @@ public class ItemHelper {
                 ProjectionType.ORTHOGRAPHIC
         );
         GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms()
-                .writeTransform(new Matrix4f().setTranslation(0.0F, 0.0F, -11000.0F), new Vector4f(1.0F, 1.0F, 1.0F, 1.0F), new Vector3f(), new Matrix4f());
+                .writeTransform(new Matrix4f().setTranslation(0.0F, 0.0F, -11000.0F));
 
         guiRenderState.forEachElement(
                 element -> drawGuiElement(framebuffer, element, dynamicTransforms),
@@ -349,16 +354,16 @@ public class ItemHelper {
                 )) {
             RenderSystem.bindDefaultUniforms(renderPass);
             renderPass.setUniform("DynamicTransforms", dynamicTransforms);
-            renderPass.setPipeline(pipeline);
+            renderPass.setPipeline(RenderSystem.getCompiledPipeline(pipeline));
 
             if (textureSetup.texure0() != null) {
-                renderPass.bindTexture("Sampler0", textureSetup.texure0(), textureSetup.sampler0());
+                renderPass.setUniform("Sampler0", textureSetup.texure0(), textureSetup.sampler0());
             }
             if (textureSetup.texure1() != null) {
-                renderPass.bindTexture("Sampler1", textureSetup.texure1(), textureSetup.sampler1());
+                renderPass.setUniform("Sampler1", textureSetup.texure1(), textureSetup.sampler1());
             }
             if (textureSetup.texure2() != null) {
-                renderPass.bindTexture("Sampler2", textureSetup.texure2(), textureSetup.sampler2());
+                renderPass.setUniform("Sampler2", textureSetup.texure2(), textureSetup.sampler2());
             }
 
             ScreenRectangle scissor = element.scissorArea();

@@ -13,7 +13,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.KeyDispatchDataCodec;
+import com.mojang.serialization.MapCodec;
 
 import net.neoforged.neoforge.registries.RegistryBuilder;
 
@@ -310,7 +310,7 @@ public abstract class SDF {
     //---------------------- ABSTRACT METHODS ----------------------
 
     public abstract double dist(Float3 pos);
-    public abstract KeyDispatchDataCodec<? extends SDF> codec();
+    public abstract MapCodec<? extends SDF> codec();
 
 
     //---------------------- SDF REGISTRY ----------------------
@@ -320,7 +320,7 @@ public abstract class SDF {
             = new RegistryBuilder<>(SDF_REGISTRY_KEY).sync(true).create();
 
     public static final Codec<SDF> CODEC = SDF_REGISTRY.byNameCodec()
-                                                       .dispatch((sdf) -> sdf.codec().codec(), Function.identity());
+                                                       .dispatch(SDF::codec, Function.identity());
 
     static void bootstrap(Registry<MapCodec<? extends SDF>> registry) {
         register(registry, "union", SDFUnion.CODEC);
@@ -338,9 +338,9 @@ public abstract class SDF {
     static MapCodec<? extends SDF> register(
             Registry<MapCodec<? extends SDF>> registry,
             String name,
-            KeyDispatchDataCodec<? extends SDF> codec
+            MapCodec<? extends SDF> codec
     ) {
-        return Registry.register(registry, WunderLib.ID(name), codec.codec());
+        return Registry.register(registry, WunderLib.ID(name), codec);
     }
 
     @ApiStatus.Internal

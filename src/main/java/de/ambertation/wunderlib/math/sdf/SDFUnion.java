@@ -5,7 +5,7 @@ import de.ambertation.wunderlib.math.Transform;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.KeyDispatchDataCodec;
+import com.mojang.serialization.MapCodec;
 
 public class SDFUnion extends SDFBinaryOperation {
     public static final MapCodec<SDFUnion> DIRECT_CODEC = RecordCodecBuilder.mapCodec(instance -> instance
@@ -17,10 +17,10 @@ public class SDFUnion extends SDFBinaryOperation {
             .apply(instance, SDFUnion::new)
     );
 
-    public static final KeyDispatchDataCodec<SDFUnion> CODEC = KeyDispatchDataCodec.of(DIRECT_CODEC);
+    public static final MapCodec<SDFUnion> CODEC = DIRECT_CODEC;
 
     @Override
-    public KeyDispatchDataCodec<? extends SDF> codec() {
+    public MapCodec<? extends SDF> codec() {
         return CODEC;
     }
 
