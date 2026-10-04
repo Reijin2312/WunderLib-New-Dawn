@@ -8,7 +8,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.KeyDispatchDataCodec;
 
 public class Sphere extends BaseShape {
     public static final Transform DEFAULT_TRANSFORM = Transform.of(Float3.of(0, 0, 0), Float3.of(8, 8, 8));
@@ -20,10 +19,10 @@ public class Sphere extends BaseShape {
             .apply(instance, Sphere::new)
     );
 
-    public static final KeyDispatchDataCodec<Sphere> CODEC = KeyDispatchDataCodec.of(DIRECT_CODEC);
+    public static final MapCodec<Sphere> CODEC = DIRECT_CODEC;
 
     @Override
-    public KeyDispatchDataCodec<? extends SDF> codec() {
+    public MapCodec<? extends SDF> codec() {
         return CODEC;
     }
 

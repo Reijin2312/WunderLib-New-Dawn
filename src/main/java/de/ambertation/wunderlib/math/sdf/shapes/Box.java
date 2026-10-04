@@ -8,7 +8,6 @@ import de.ambertation.wunderlib.math.sdf.interfaces.Rotatable;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.KeyDispatchDataCodec;
 
 // https://iquilezles.org/articles/distfunctions/
 public class Box extends BaseShape implements Rotatable {
@@ -21,10 +20,10 @@ public class Box extends BaseShape implements Rotatable {
             .apply(instance, Box::new)
     );
 
-    public static final KeyDispatchDataCodec<Box> CODEC = KeyDispatchDataCodec.of(DIRECT_CODEC);
+    public static final MapCodec<Box> CODEC = DIRECT_CODEC;
 
     @Override
-    public KeyDispatchDataCodec<? extends SDF> codec() {
+    public MapCodec<? extends SDF> codec() {
         return CODEC;
     }
 
