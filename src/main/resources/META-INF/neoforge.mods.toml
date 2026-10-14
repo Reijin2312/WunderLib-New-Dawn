@@ -8,7 +8,7 @@ modId="${mod_id}"
 version="${version}"
 displayName="WunderLib"
 description="A UI, Math and Networking Library"
-authors="Quiqueck"
+authors="Quiqueck, Raijin2312"
 displayURL="https://github.com/quiqueck/WunderLib"
 logoFile="assets/wunderlib/icon.png"
 
